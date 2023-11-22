@@ -10,41 +10,34 @@ public class PlayerController : MonoBehaviour
     bool facingRight = true;
     Vector3 movement;
 
-    //Flashlight Variables
-    public Light flashLight;
-    bool turnedOff = false;
-
     //Collision Variables
     private Rigidbody rb;
     private SphereCollider playerCollider;
 
     //Interaction Variables
-    bool canInteract = false;
+    public bool canInteract = false;
     bool isDoor = false;
     private Vector3 moveLocation;
     private int RoomNum;
+
+    //Flashlight Variables
+    private GameObject flashLight;
+    private FlashlightController flc;
 
     private void Start()
     {
         //Get Player Components on game startup
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<SphereCollider>();
+
+        //Get Flashlight Components on game startup
+        flashLight = GameObject.FindGameObjectWithTag("Flashlight");
+        flc = flashLight.gameObject.GetComponent<FlashlightController>();
     }
 
     private void Update()
     {
-        //Closing Eyes interaction
-        if (Input.GetMouseButtonDown(0))
-        {
-            turnedOff = true;
-            FlashLight();
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            turnedOff = false;
-            FlashLight();
-        }
-
+        //Check for interactable objects encountered
         if (canInteract)
         {
             Interaction();
@@ -53,19 +46,20 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Get Left/Right Input (A and D)
+        //Get Left/Right Inputs from Unity internal inputs (A and D)
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        if (turnedOff)
+        //Checks for Flashlight state
+        if (flc.turnedOn)
         {
             //Transfer Movement into Vector
-            movement = new Vector3(horizontalInput * moveSpeed / 8f, 0f, 0f);
+            movement = new Vector3(horizontalInput * moveSpeed, 0f, 0f);   
         }
         else
         {
-            //Transfer Movement into Vector
-            movement = new Vector3(horizontalInput * moveSpeed, 0f, 0f);
-        }
+            //Transfer Movement into Vector and slow it down 
+            movement = new Vector3(horizontalInput * moveSpeed / 8f, 0f, 0f);
+        }        
 
         //Flip Playermodel depending on Walk direction (Once per)
         if (horizontalInput > 0 && !facingRight)
@@ -77,7 +71,7 @@ public class PlayerController : MonoBehaviour
             Flip();
         }
 
-        //PlayerMovement
+        //Player movement
         rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
     }
 
@@ -91,19 +85,7 @@ public class PlayerController : MonoBehaviour
         facingRight = !facingRight;
     }
 
-    //Eye closing in game
-    void FlashLight()
-    {
-        if (turnedOff)
-        {
-            flashLight.enabled = false;
-        }
-        else
-        {
-            flashLight.enabled = true;
-        }
-    }
-
+    //Interactable World Objects
     void Interaction()
     {
         if (isDoor)
@@ -111,27 +93,26 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //Moving to the Door given through trigger collision
-                
-            
                 switch (RoomNum)
                 {
-                    case 0:
-                        //Positionierung des Spielers nach interagieren mit Tür
+                    case 0: //Entering Child Bedroom from Floor
+                        //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 0.95f, moveLocation.z);
                         break;
-                    case 1:
-                        //Positionierung des Spielers nach interagieren mit Tür
+                    case 1: //Entering Floor from Child Bedroom
+                        //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 0.95f, moveLocation.z);
                         break;
-                    case 2:
-                        //Positionierung des Spielers nach interagieren mit Tür
+                    case 2: //Currently not used
+                        //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 0.85f, moveLocation.y - 0.95f, moveLocation.z - 3.25f);
                         break;
-                    case 3:
-                        //Positionierung des Spielers nach interagieren mit Tür
+                    case 3: //Currently not used
+                        //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 0.85f, moveLocation.y - 0.95f, moveLocation.z - 3.25f);
                         break;
                     default:
+                        //In case of extending outside of the given Rooms
                         Debug.Log("No Room under that number existant");
                         break;
                 }
@@ -141,6 +122,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter (Collider collision)
     {
+        //Collision detection on Doors
         if (collision.gameObject.tag == "Doorway")
         {
             canInteract = true;
@@ -153,6 +135,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay (Collider collision)
     {
+        //Be able to constantly use Doors when going through once (would count as leaving when not checking it on in this field)
         if (collision.gameObject.tag == "Doorway")
         {
             canInteract = true;
@@ -162,6 +145,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
+        //Disable any interactions with Doors while out of bounds
         if (collision.gameObject.tag == "Doorway")
         {
             canInteract = false;
