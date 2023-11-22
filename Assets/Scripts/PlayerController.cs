@@ -24,6 +24,11 @@ public class PlayerController : MonoBehaviour
     private GameObject flashLight;
     private FlashlightController flc;
 
+    //Nightlight Variables
+    private GameObject nightLight;
+    private bool isNightlight = false;
+    public bool hasNightlight = false;
+
     private void Start()
     {
         //Get Player Components on game startup
@@ -97,11 +102,11 @@ public class PlayerController : MonoBehaviour
                 {
                     case 0: //Entering Child Bedroom from Floor
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 0.95f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 1: //Entering Floor from Child Bedroom
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 0.95f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 2: //Currently not used
                         //Adaptable Positioning on door entering
@@ -118,6 +123,34 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        if (isNightlight)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                //Checks if there is a Nightlight active in the Outlet
+                if (nightLight.activeSelf)
+                {
+                    nightLight.SetActive(false);
+                    hasNightlight = true;
+                    Debug.Log("Picked up Light");
+                }
+                else
+                {   
+                    //Checks if player has Nightlight in possession
+                    if (hasNightlight)
+                    {
+                        nightLight.SetActive(true);
+                        hasNightlight = false;
+                        Debug.Log("Used up Light");
+                    }
+                    else
+                    {
+                        Debug.Log("No Nightlight in possession");
+                    }
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter (Collider collision)
@@ -131,6 +164,14 @@ public class PlayerController : MonoBehaviour
             moveLocation = DoorTo.ConnectedPosition;
             RoomNum = (int)DoorTo.toRoom;
         }
+
+        if (collision.gameObject.tag == "Outlet")
+        {
+            nightLight = collision.transform.GetChild(2).gameObject;
+            canInteract = true;
+            isNightlight = true;
+            Debug.Log(nightLight);
+        }
     }
 
     private void OnTriggerStay (Collider collision)
@@ -141,6 +182,12 @@ public class PlayerController : MonoBehaviour
             canInteract = true;
             isDoor = true;
         }
+
+        if (collision.gameObject.tag == "Outlet")
+        {
+            canInteract = true;
+            isNightlight = true;
+        }
     }
 
     private void OnTriggerExit(Collider collision)
@@ -150,6 +197,13 @@ public class PlayerController : MonoBehaviour
         {
             canInteract = false;
             isDoor = false;
+        }
+
+        //Disable any interactions with nightlights while out of bounds
+        if (collision.gameObject.tag == "Outlet")
+        {
+            canInteract = false;
+            isNightlight = false;
         }
     }
 }

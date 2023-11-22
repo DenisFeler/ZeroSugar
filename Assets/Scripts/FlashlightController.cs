@@ -47,11 +47,7 @@ public class FlashlightController : MonoBehaviour
             turnedOn = true;
         }
 
-        //Only Charge flashlight as long as you don't interact with anything else
-        if (!pc.canInteract)
-        {
-            ChargeFlashlight();
-        }
+        ChargeFlashlight();
     }
 
     private void FixedUpdate()
@@ -61,7 +57,6 @@ public class FlashlightController : MonoBehaviour
         if (charging)
         {
             batteryCurrentCapacity += 1 * chargeRate;
-            Debug.Log(batteryCurrentCapacity);
 
             if (batteryCurrentCapacity >= 60)
             {
@@ -99,7 +94,6 @@ public class FlashlightController : MonoBehaviour
             batteryCharge1.SetActive(true);
             batteryCharge2.SetActive(true);
             batteryCharge3.SetActive(true);
-            Debug.Log(batteryCurrentCapacity);
         }
         else if (turnedOn && batteryCurrentCapacity >= 30)
         {
@@ -110,7 +104,6 @@ public class FlashlightController : MonoBehaviour
             batteryCharge1.SetActive(false);
             batteryCharge2.SetActive(true);
             batteryCharge3.SetActive(true);
-            Debug.Log(batteryCurrentCapacity);
         }
         else if (turnedOn && batteryCurrentCapacity >= 0)
         {
@@ -126,7 +119,6 @@ public class FlashlightController : MonoBehaviour
             {
                 StartCoroutine(FlickeringLight());
             }
-            Debug.Log(batteryCurrentCapacity);
         }
         else if (turnedOn && batteryCurrentCapacity <= 0)
         {
@@ -145,14 +137,14 @@ public class FlashlightController : MonoBehaviour
 
     void ChargeFlashlight()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             flashLight.enabled = false;
             turnedOn = false;
             charging = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             flashLight.enabled = true;
             turnedOn = true;

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Doorway
   - Flashlight
+  - Outlet
+  - NightLight
   layers:
   - Default
   - TransparentFX
