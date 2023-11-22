@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     //Movement Variables
     float horizontalInput;
-    public bool foreGround = true;
     public float moveSpeed = 5f;
     bool facingRight = true;
     Vector3 movement;
@@ -23,6 +22,7 @@ public class PlayerController : MonoBehaviour
     bool canInteract = false;
     bool isDoor = false;
     private Vector3 moveLocation;
+    private int RoomNum;
 
     private void Start()
     {
@@ -49,18 +49,23 @@ public class PlayerController : MonoBehaviour
         {
             Interaction();
         }
-
-        ForeAndBackgroundMove();
     }
 
     private void FixedUpdate()
     {
         //Get Left/Right Input (A and D)
         horizontalInput = Input.GetAxisRaw("Horizontal");
-        //Transfer Movement into Vector
-        movement = new Vector3(horizontalInput * moveSpeed, 0f, 0f);
-        //PlayerMovement
-        rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
+
+        if (turnedOff)
+        {
+            //Transfer Movement into Vector
+            movement = new Vector3(horizontalInput * moveSpeed / 8f, 0f, 0f);
+        }
+        else
+        {
+            //Transfer Movement into Vector
+            movement = new Vector3(horizontalInput * moveSpeed, 0f, 0f);
+        }
 
         //Flip Playermodel depending on Walk direction (Once per)
         if (horizontalInput > 0 && !facingRight)
@@ -71,6 +76,9 @@ public class PlayerController : MonoBehaviour
         {
             Flip();
         }
+
+        //PlayerMovement
+        rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
     }
 
     //Change Look Direction of Player by Scale inversion
@@ -81,35 +89,6 @@ public class PlayerController : MonoBehaviour
         gameObject.transform.localScale = currentScale;
 
         facingRight = !facingRight;
-    }
-
-    //Moving player from fore and background
-    void ForeAndBackgroundMove()
-    {
-        if (foreGround)
-        {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                Debug.Log("Backmove");
-                foreGround = false;
-                //Transfer Movement into Vector
-                movement = new Vector3(0f, 0f, 200f);
-                //PlayerMovement
-                rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                Debug.Log("Frontmove");
-                foreGround = true;
-                //Transfer Movement into Vector
-                movement = new Vector3(0f, 0f, -200f);
-                //PlayerMovement
-                rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
-            }
-        }    
     }
 
     //Eye closing in game
@@ -132,7 +111,30 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //Moving to the Door given through trigger collision
-                gameObject.transform.localPosition = new Vector3(moveLocation.x + 0.85f, moveLocation.y - 0.95f, 23f);
+                
+            
+                switch (RoomNum)
+                {
+                    case 0:
+                        //Positionierung des Spielers nach interagieren mit Tür
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 0.95f, moveLocation.z);
+                        break;
+                    case 1:
+                        //Positionierung des Spielers nach interagieren mit Tür
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 0.95f, moveLocation.z);
+                        break;
+                    case 2:
+                        //Positionierung des Spielers nach interagieren mit Tür
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 0.85f, moveLocation.y - 0.95f, moveLocation.z - 3.25f);
+                        break;
+                    case 3:
+                        //Positionierung des Spielers nach interagieren mit Tür
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 0.85f, moveLocation.y - 0.95f, moveLocation.z - 3.25f);
+                        break;
+                    default:
+                        Debug.Log("No Room under that number existant");
+                        break;
+                }
             }
         }
     }
@@ -145,6 +147,7 @@ public class PlayerController : MonoBehaviour
             isDoor = true;
             var DoorTo = collision.gameObject.GetComponent<Door>();
             moveLocation = DoorTo.ConnectedPosition;
+            RoomNum = (int)DoorTo.toRoom;
         }
     }
 
