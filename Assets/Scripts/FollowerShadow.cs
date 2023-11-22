@@ -19,6 +19,9 @@ public class FollowerShadow : MonoBehaviour
     //Player ref Variables
     private GameObject player;
     private PlayerController pc;
+    //Flashlight Variables
+    private GameObject flashLight;
+    private FlashlightController flc;
 
     private void Start()
     {
@@ -28,6 +31,10 @@ public class FollowerShadow : MonoBehaviour
         //Get Player ref
         player = GameObject.FindGameObjectWithTag("Player");
         pc = player.gameObject.GetComponent<PlayerController>();
+
+        //Get Flashlight Components on game startup
+        flashLight = GameObject.FindGameObjectWithTag("Flashlight");
+        flc = flashLight.gameObject.GetComponent<FlashlightController>();
     }
 
     private void FixedUpdate()
@@ -41,7 +48,7 @@ public class FollowerShadow : MonoBehaviour
 
             if(hasLineOfSight)
             {
-                if (moveSpeed >= maxSpeed && startChase)
+                if (moveSpeed >= maxSpeed && !startChase)
                 {
                     currentMoveSpeed = maxSpeed;
                 }
@@ -52,18 +59,23 @@ public class FollowerShadow : MonoBehaviour
 
                 if (pc.facingRight)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
                 }
-                else if (!pc.facingRight && currentDistance <= 9)
+                else if (!pc.facingRight && currentDistance <= 9 && flc.turnedOn)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -moveSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
                     currentMoveSpeed = moveSpeed;
                     startChase = false;
                 }
-                else if (!pc.facingRight && currentDistance > 9)
+                else if (!pc.facingRight && currentDistance > 9 && flc.turnedOn)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                    startChase = true;
+                }
+                else if (!pc.facingRight && !flc.turnedOn)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
                 }
             }
@@ -78,17 +90,38 @@ public class FollowerShadow : MonoBehaviour
 
             if (hasLineOfSight)
             {
-                if (pc.facingRight)
+                if (moveSpeed >= maxSpeed && !startChase)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -moveSpeed * Time.deltaTime);
+                    currentMoveSpeed = maxSpeed;
                 }
-                else if (!pc.facingRight && currentDistance <= 9)
+                else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    currentMoveSpeed += acceleration;
                 }
-                else if (!pc.facingRight && currentDistance > 9)
+
+                if (!pc.facingRight)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -moveSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                    startChase = true;
+                }
+                else if (pc.facingRight && currentDistance <= 9 && flc.turnedOn)
+                {
+                    if (currentDistance <= 9)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = moveSpeed;
+                        startChase = false;
+                    }
+                    else if (currentDistance > 9)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        startChase = true;
+                    }
+                }
+                else if (pc.facingRight && !flc.turnedOn)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                    startChase = true;
                 }
             }
         }
