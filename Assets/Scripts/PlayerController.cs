@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     //Movement Variables
     float horizontalInput;
-    public float moveSpeed = 5f;
-    bool facingRight = true;
+    [SerializeField] private float moveSpeed;
+    public bool facingRight = true;
     Vector3 movement;
 
     //Collision Variables
@@ -133,7 +133,6 @@ public class PlayerController : MonoBehaviour
                 {
                     nightLight.SetActive(false);
                     hasNightlight = true;
-                    Debug.Log("Picked up Light");
                 }
                 else
                 {   
@@ -142,7 +141,6 @@ public class PlayerController : MonoBehaviour
                     {
                         nightLight.SetActive(true);
                         hasNightlight = false;
-                        Debug.Log("Used up Light");
                     }
                     else
                     {
@@ -170,7 +168,6 @@ public class PlayerController : MonoBehaviour
             nightLight = collision.transform.GetChild(2).gameObject;
             canInteract = true;
             isNightlight = true;
-            Debug.Log(nightLight);
         }
     }
 
