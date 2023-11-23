@@ -231,7 +231,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: c9de90fde420cce45a3da075fe5a5290, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  facingRight: 1
   canInteract: 0
   hasNightlight: 0
 --- !u!1 &7159405880568869942
@@ -515,7 +516,7 @@ MonoBehaviour:
   flashLight: {fileID: 7159405880568869941}
   turnedOn: 1
   decayRate: 0.1
-  chargeRate: 0.2
+  chargeRate: 0.3
   batteryCharge1: {fileID: 9049894844600444483}
   batteryCharge2: {fileID: 1332239806801298582}
   batteryCharge3: {fileID: 4057665214292690886}
