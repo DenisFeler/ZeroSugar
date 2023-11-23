@@ -131,7 +131,7 @@ public class FollowerShadow : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
             Application.Quit();
         }
     }
