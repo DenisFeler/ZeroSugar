@@ -137,7 +137,7 @@ public class FlashlightController : MonoBehaviour
 
     void ChargeFlashlight()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) || pc.hidden)
         {
             flashLight.enabled = false;
             turnedOn = false;

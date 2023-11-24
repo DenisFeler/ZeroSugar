@@ -15,7 +15,7 @@ public class Door : MonoBehaviour
         LivingRoom
     }
 
-    public Rooms toRoom;
+    public Rooms toRoom = 0;
 
     private void Awake()
     {

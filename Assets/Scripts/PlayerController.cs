@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     //Movement Variables
     float horizontalInput;
     [SerializeField] private float moveSpeed;
+    private float defaultMoveSpeed;
     public bool facingRight = true;
     Vector3 movement;
 
@@ -14,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private SphereCollider playerCollider;
 
-    //Interaction Variables
+    //Door Variables
     public bool canInteract = false;
     bool isDoor = false;
     private Vector3 moveLocation;
@@ -29,11 +30,18 @@ public class PlayerController : MonoBehaviour
     private bool isNightlight = false;
     public bool hasNightlight = false;
 
+    //Hiding Variables
+    private bool canHide = false;
+    public bool hidden = false;
+    private Vector3 currentPosition;
+    private Vector3 hideLocation;
+
     private void Start()
     {
         //Get Player Components on game startup
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<SphereCollider>();
+        defaultMoveSpeed = moveSpeed;
 
         //Get Flashlight Components on game startup
         flashLight = GameObject.FindGameObjectWithTag("Flashlight");
@@ -149,6 +157,26 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        if (canHide)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (!hidden)
+                {
+                    currentPosition = gameObject.transform.localPosition;
+                    gameObject.transform.localPosition = new Vector3(hideLocation.x, hideLocation.y, hideLocation.z + 1f);
+                    moveSpeed *= 0;
+                    hidden = true;
+                }
+                else
+                {
+                    gameObject.transform.localPosition = currentPosition;
+                    moveSpeed = defaultMoveSpeed;
+                    hidden = false;
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter (Collider collision)
@@ -169,6 +197,13 @@ public class PlayerController : MonoBehaviour
             canInteract = true;
             isNightlight = true;
         }
+
+        if (collision.gameObject.tag == "HidingSpace")
+        {
+            canInteract = true;
+            canHide = true;
+            hideLocation = collision.gameObject.transform.localPosition;
+        }
     }
 
     private void OnTriggerStay (Collider collision)
@@ -184,6 +219,12 @@ public class PlayerController : MonoBehaviour
         {
             canInteract = true;
             isNightlight = true;
+        }
+
+        if (collision.gameObject.tag == "HidingSpace")
+        {
+            canInteract = true;
+            canHide = true;
         }
     }
 
@@ -201,6 +242,12 @@ public class PlayerController : MonoBehaviour
         {
             canInteract = false;
             isNightlight = false;
+        }
+
+        if (collision.gameObject.tag == "HidingSpace")
+        {
+            canInteract = false;
+            canHide = false;
         }
     }
 }
