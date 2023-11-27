@@ -129,11 +129,11 @@ public class PlayerController : MonoBehaviour
                         break;
                     case 2: //Entering Livingroom from Floor
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1f, moveLocation.y + 1f, moveLocation.z - 1.5f);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1f, moveLocation.y + 1f, moveLocation.z + 4f);
                         break;
                     case 3: //Entering Floor from Livingroom
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1f, moveLocation.y + 1f, moveLocation.z - 1.5f);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1f, moveLocation.y + 1f, moveLocation.z + 4f);
                         break;
                     default:
                         //In case of extending outside of the given Rooms

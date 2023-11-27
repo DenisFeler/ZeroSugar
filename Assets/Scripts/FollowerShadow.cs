@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FollowerShadow : MonoBehaviour
 {
@@ -165,8 +166,7 @@ public class FollowerShadow : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            //UnityEditor.EditorApplication.isPlaying = false;
-            Application.Quit();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
