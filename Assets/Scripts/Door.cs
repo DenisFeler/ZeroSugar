@@ -9,10 +9,10 @@ public class Door : MonoBehaviour
 
     public enum Rooms
     {
-        ChildBR,
-        Floor,
-        ParentBR,
-        LivingRoom
+        Floor2ChildBR, //0
+        ChildBR2Floor, //1
+        Floor2LivingRoom, //2
+        LivingRoom2Floor, //3
     }
 
     public Rooms toRoom = 0;
