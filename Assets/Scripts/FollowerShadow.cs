@@ -114,36 +114,38 @@ public class FollowerShadow : MonoBehaviour
 
             if (hasLineOfSight)
             {
-                if (currentMoveSpeed >= maxSpeed && startChase)
+                WanderBack = false;
+
+                if (currentMoveSpeed >= maxSpeed && startChase) //Stay at maxSpeed when chasing (aka Limiter)
                 {
                     currentMoveSpeed = maxSpeed;
                 }
-                else if (currentMoveSpeed <= maxSpeed && startChase)
+                else if (currentMoveSpeed <= maxSpeed && startChase) //Accelerate while chasing
                 {
 
                     currentMoveSpeed += acceleration;
                 }
 
-                if (pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
-                    startChase = true;
-                }
-                else if (!pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
+                if (!pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                    startChase = true;
+                }
+                else if (pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
                     currentMoveSpeed = minMoveSpeed;
                     startChase = false;
                     inLight = true;
                 }
-                else if (!pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
+                else if (pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
                 }
-                else if (!pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
+                else if (pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
                 }
                 else //Boolean reset to be out of light
