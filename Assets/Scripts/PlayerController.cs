@@ -234,6 +234,12 @@ public class PlayerController : MonoBehaviour
             canHide = true;
             hideLocation = collision.gameObject.transform.localPosition;
         }
+
+        //Collision detection on Shadow Pits
+        if (collision.gameObject.tag == "Enemy")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void OnTriggerStay (Collider collision)
