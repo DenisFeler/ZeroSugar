@@ -120,21 +120,69 @@ public class PlayerController : MonoBehaviour
                 //Moving to the Door given through trigger collision
                 switch (RoomNum)
                 {
-                    case 0: //Entering Child Bedroom from Floor
+                    case 0: //Entering Child Bedroom from Upper Hallway
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
-                    case 1: //Entering Floor from Child Bedroom
+                    case 1: //Entering Upper Hallway from Child Bedroom
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
-                    case 2: //Entering Livingroom from Floor
+                    case 2: //Entering Lower Hallway from Upper Hallway
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1f, moveLocation.y + 1f, moveLocation.z + 4f);
                         break;
-                    case 3: //Entering Floor from Livingroom
+                    case 3: //Entering Upper Hallway from Lower Hallway
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1f, moveLocation.y + 1f, moveLocation.z + 4f);
+                        break;
+                    case 4: //Entering Livingroom from Lower Hallway
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
+                        break;
+                    case 5: //Entering Lower Hallway from Livingroom
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
+                        break;
+                    case 6: //Entering Kitchen from Lower Hallway
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        break;
+                    case 7: //Entering Lower Hallway from Kitchen
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        break;
+                    case 8: //Entering Livingroom from Kitchen
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
+                        break;
+                    case 9: //Entering Kitchen from Livingroom
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
+                        break;
+                    case 10: //Entering Cellar from Kitchen
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        break;
+                    case 11: //Entering Kitchen from Cellar
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        break;
+                    case 12: //Entering Stretched Hallway from Lower Hallway
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        break;
+                    case 13: //Entering Lower Hallway from Stretched Hallway
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        break;
+                    case 14: //Entering Office from Stretched Hallway
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z -2.85f);
+                        break;
+                    case 15: //Entering Stretched Hallway from Office
+                        //Adaptable Positioning on door entering
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z -2.85f);
                         break;
                     default:
                         //In case of extending outside of the given Rooms

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9046465035690411309}
   - component: {fileID: 9046465035690411305}
   m_Layer: 0
-  m_Name: FollowerShade
+  m_Name: Stalker
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
