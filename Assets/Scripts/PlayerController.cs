@@ -122,11 +122,11 @@ public class PlayerController : MonoBehaviour
                 {
                     case 0: //Entering Child Bedroom from Upper Hallway
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 1: //Entering Upper Hallway from Child Bedroom
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 2: //Entering Lower Hallway from Upper Hallway
                         //Adaptable Positioning on door entering
@@ -146,11 +146,11 @@ public class PlayerController : MonoBehaviour
                         break;
                     case 6: //Entering Kitchen from Lower Hallway
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 7: //Entering Lower Hallway from Kitchen
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 8: //Entering Livingroom from Kitchen
                         //Adaptable Positioning on door entering
@@ -162,19 +162,19 @@ public class PlayerController : MonoBehaviour
                         break;
                     case 10: //Entering Cellar from Kitchen
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 11: //Entering Kitchen from Cellar
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 12: //Entering Stretched Hallway from Lower Hallway
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 13: //Entering Lower Hallway from Stretched Hallway
                         //Adaptable Positioning on door entering
-                        gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+                        gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 14: //Entering Office from Stretched Hallway
                         //Adaptable Positioning on door entering
