@@ -295,9 +295,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  slowDown: 8
   facingRight: 1
   canInteract: 0
   hasNightlight: 0
+  hidden: 0
+  fieldOfViewHiding: 80
+  TransitionBlendUI: {fileID: 0}
 --- !u!1 &7159405880568869942
 GameObject:
   m_ObjectHideFlags: 0

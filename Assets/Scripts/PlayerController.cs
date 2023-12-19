@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     //Movement Variables
     float horizontalInput;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float slowDown;
     private float defaultMoveSpeed;
     [HideInInspector] public bool facingRight = true;
     private Vector3 movement;
@@ -85,7 +86,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             //Transfer Movement into Vector and slow it down 
-            movement = new Vector3(horizontalInput * moveSpeed / 8f, 0f, 0f);
+            movement = new Vector3(horizontalInput * moveSpeed / slowDown, 0f, 0f);
         }        
 
         //Flip Playermodel depending on Walk direction (Once per)
@@ -321,7 +322,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Doorway")
         {
             canInteract = false;
-            isDoor = false;
+            isDoor = false;  
         }
         //Disable any interactions with nightlights while out of bounds
         if (collision.gameObject.tag == "Outlet")

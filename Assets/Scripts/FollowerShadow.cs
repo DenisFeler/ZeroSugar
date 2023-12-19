@@ -17,7 +17,7 @@ public class FollowerShadow : MonoBehaviour
     private bool hasLineOfSight = false;
     private bool startChase = false;
     private Vector3 startPosition;
-    [SerializeField] private bool WanderBack = false;
+    private bool WanderBack = false;
 
     //Player ref Variables
     private GameObject player;
@@ -25,7 +25,7 @@ public class FollowerShadow : MonoBehaviour
     //Flashlight Variables
     private GameObject flashLight;
     private FlashlightController flc;
-    [SerializeField] private bool inLight = false;
+    private bool inLight = false;
 
     private void Start()
     {
