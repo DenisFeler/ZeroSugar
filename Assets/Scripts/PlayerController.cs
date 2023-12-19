@@ -17,8 +17,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private SphereCollider playerCollider;
 
-    //Door Variables
+    //Interaction Variable
     [HideInInspector] public bool canInteract = false;
+
+    //Door Variables
     private bool isDoor = false;
     private Vector3 moveLocation;
     private int RoomNum;
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private GameObject physCamera;
     private CinemachineVirtualCamera vCam;
     public float fieldOfViewHiding;
+    public GameObject TransitionBlendUI;
 
     private void Start()
     {
