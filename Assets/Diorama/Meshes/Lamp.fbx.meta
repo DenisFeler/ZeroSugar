@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a463965ee6ca43049ba606d6f9d0d56f
+guid: b58ee03883072b447bdd410539b5efa9
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Wall
+      name: Lamp
     second: {fileID: 2100000, guid: de71e7ab69603724b96efde3b3c73ddf, type: 2}
   materials:
     materialImportMode: 2

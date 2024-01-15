@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ae3cb4f5018f96c4f88e3c7a6ac9d0bd
+guid: e401857c5ca2c3c4098babdffb946d0d
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Bed
+      name: Wood
     second: {fileID: 2100000, guid: 8d7a068b8ae76084b8b59dd8be1eae26, type: 2}
   materials:
     materialImportMode: 2
