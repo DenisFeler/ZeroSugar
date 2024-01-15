@@ -10,6 +10,7 @@ TagManager:
   - NightLight
   - Enemy
   - HidingSpace
+  - GameMaster
   layers:
   - Default
   - TransparentFX

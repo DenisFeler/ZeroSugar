@@ -31,9 +31,10 @@ public class PlayerController : MonoBehaviour
     private FlashlightController flc;
 
     //Nightlight Variables
-    private GameObject nightLight;
+    public GameObject nightLight;
     private bool isNightlight = false;
     [HideInInspector] public bool hasNightlight = false;
+    private GameMaster gm;
 
     //Hiding Variables
     private bool canHide = false;
@@ -61,6 +62,9 @@ public class PlayerController : MonoBehaviour
         //Get Camera Components on game startup
         physCamera = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
         vCam = physCamera.gameObject.GetComponent<CinemachineVirtualCamera>();
+
+        //Get Checkpoint Components on game startup
+        //gm = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameMaster>();
     }
 
     private void Update()
@@ -214,6 +218,8 @@ public class PlayerController : MonoBehaviour
                     {
                         nightLight.SetActive(true);
                         hasNightlight = false;
+                        //gm.lastCheckpointPos = transform.position;
+                        //gm.nightLight = nightLight;
                     }
                     else
                     {
@@ -234,7 +240,7 @@ public class PlayerController : MonoBehaviour
                     //Saves the player position before going into hiding
                     currentPosition = gameObject.transform.localPosition;
                     //Reposition the player into the hiding spots location
-                    gameObject.transform.localPosition = new Vector3(hideLocation.x, hideLocation.y, hideLocation.z + 1f);
+                    gameObject.transform.localPosition = new Vector3(hideLocation.x, hideLocation.y, hideLocation.z + 2f);
                     //Zero movespeed to pseudo disable movement
                     moveSpeed *= 0;
                     //Change FOV when hiding, with adaptable variable
