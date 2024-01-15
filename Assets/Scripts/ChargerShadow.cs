@@ -31,6 +31,9 @@ public class ChargerShadow : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         enemyCollider = GetComponent<CapsuleCollider>();
 
+        //Get spawn position
+        startPosition = transform.position;
+
         //Get Player ref
         player = GameObject.FindGameObjectWithTag("Player");
         pc = player.gameObject.GetComponent<PlayerController>();
@@ -49,17 +52,15 @@ public class ChargerShadow : MonoBehaviour
             hasLineOfSight = hitR.collider.CompareTag("Player");
             float currentDistance = Vector3.Distance(transform.position, player.transform.position);
 
-            if(hasLineOfSight)
+            if (hasLineOfSight)
             {
-                WanderBack = false;
-
                 if (pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
                 }
                 else if (!pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed / slowRatio * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, (moveSpeed / slowRatio) * Time.deltaTime);
                     inLight = true;
                 }
                 else if (!pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
@@ -77,11 +78,7 @@ public class ChargerShadow : MonoBehaviour
             }
             else //Wander back to spawn point when losing sight
             {
-                WanderBack = true;
-                if (WanderBack)
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, startPosition, moveSpeed * Time.deltaTime);
-                }
+
             }
         }
 
@@ -94,15 +91,13 @@ public class ChargerShadow : MonoBehaviour
 
             if (hasLineOfSight)
             {
-                WanderBack = false;
-
                 if (!pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
                 }
                 else if (pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed / slowRatio * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, (moveSpeed / slowRatio) * Time.deltaTime);
                     inLight = true;
                 }
                 else if (pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
@@ -120,11 +115,7 @@ public class ChargerShadow : MonoBehaviour
             }
             else //Wander back to spawn point when losing sight
             {
-                WanderBack = true;
-                if (WanderBack)
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, startPosition, moveSpeed * Time.deltaTime);
-                }
+
             }
         }
     }
