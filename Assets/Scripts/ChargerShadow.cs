@@ -5,21 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class ChargerShadow : MonoBehaviour
 {
-    //Collision Variables
+    //Enemy Variables
     private Rigidbody rb;
     private CapsuleCollider enemyCollider;
+    private FadeUI uiFader;
 
     //Movement Variables
     [SerializeField] private float moveSpeed;
     [SerializeField] private float slowRatio;
     private bool hasLineOfSight = false;
-
-    private Vector3 startPosition;
-    private bool WanderBack = false;
+    private bool hadLineOfSight = false;
 
     //Player ref Variables
     private GameObject player;
+    private Rigidbody playerRB;
     private PlayerController pc;
+
     //Flashlight Variables
     private GameObject flashLight;
     private FlashlightController flc;
@@ -31,11 +32,9 @@ public class ChargerShadow : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         enemyCollider = GetComponent<CapsuleCollider>();
 
-        //Get spawn position
-        startPosition = transform.position;
-
         //Get Player ref
         player = GameObject.FindGameObjectWithTag("Player");
+        playerRB = player.gameObject.GetComponent<Rigidbody>();
         pc = player.gameObject.GetComponent<PlayerController>();
 
         //Get Flashlight Components on game startup
@@ -74,11 +73,13 @@ public class ChargerShadow : MonoBehaviour
                 else //Boolean reset to be out of light
                 {
                     inLight = false;
+                    hadLineOfSight = true;
                 }
             }
-            else //Wander back to spawn point when losing sight
+            else if (!hasLineOfSight && hadLineOfSight)//Wander back to spawn point when losing sight
             {
-
+                Debug.Log("Avoided");
+                Destroy(gameObject);
             }
         }
 
@@ -111,20 +112,32 @@ public class ChargerShadow : MonoBehaviour
                 else //Boolean reset to be out of light
                 {
                     inLight = false;
+                    hadLineOfSight = true;
                 }
             }
-            else //Wander back to spawn point when losing sight
+            else if (!hasLineOfSight && hadLineOfSight)//Wander back to spawn point when losing sight
             {
-
+                Debug.Log("Avoided");
+                Destroy(gameObject);
             }
         }
+    }
+
+    IEnumerator KillingTime()
+    {
+        playerRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        uiFader.FaderBG();
+        yield return new WaitForSeconds(1f);
+        uiFader.FaderTXT();
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            StartCoroutine(KillingTime());
         }
     }
 

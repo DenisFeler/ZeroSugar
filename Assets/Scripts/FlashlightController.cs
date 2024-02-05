@@ -8,6 +8,10 @@ public class FlashlightController : MonoBehaviour
     private GameObject player;
     private PlayerController pc;
 
+    //Audio Variables
+    public AudioSource FlashlightStaticSound;
+    public AudioSource FlashlightRechargeSound;
+
     //Flashlight Variables
     public Light flashLight;
     public bool turnedOn = true;
@@ -133,6 +137,15 @@ public class FlashlightController : MonoBehaviour
         {
             flashLight.enabled = false;
         }
+
+        if (turnedOn)
+        {
+            FlashlightStaticSound.PlayOneShot(FlashlightStaticSound.clip, 0.125f);
+        }
+        else
+        {
+            FlashlightStaticSound.Stop();
+        }
     }
 
     void ChargeFlashlight()
@@ -142,6 +155,8 @@ public class FlashlightController : MonoBehaviour
             flashLight.enabled = false;
             turnedOn = false;
             charging = true;
+
+            FlashlightRechargeSound.PlayOneShot(FlashlightRechargeSound.clip, 0.2f);
         }
 
         if (Input.GetKeyUp(KeyCode.R))
@@ -153,6 +168,8 @@ public class FlashlightController : MonoBehaviour
             {
                 batteryCurrentCapacity = batteryMaxCapacity;
             }
+
+            FlashlightRechargeSound.Stop();
         }
     }
 

@@ -6,6 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    //Visual Variables
+    public GameObject modelCont;
+
+    //Sound Variables
+    public AudioSource WalkingSound;
+    public AudioSource NLInSound;
+    public AudioSource NLOutSound;
+
     //Movement Variables
     float horizontalInput;
     [SerializeField] private float moveSpeed;
@@ -20,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     //Interaction Variable
     [HideInInspector] public bool canInteract = false;
+    public GameObject InteractionUICanvas;
+    private InteractionUI interactUI;
 
     //Door Variables
     private bool isDoor = false;
@@ -65,6 +75,8 @@ public class PlayerController : MonoBehaviour
 
         //Get Checkpoint Components on game startup
         //gm = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameMaster>();
+
+        interactUI = InteractionUICanvas.gameObject.GetComponent<InteractionUI>();
     }
 
     private void Update()
@@ -73,6 +85,11 @@ public class PlayerController : MonoBehaviour
         if (canInteract)
         {
             Interaction();
+            interactUI.canShowUI = true;
+        }
+        else
+        {
+            interactUI.canShowUI = false;
         }
     }
 
@@ -85,7 +102,7 @@ public class PlayerController : MonoBehaviour
         if (flc.turnedOn)
         {
             //Transfer Movement into Vector
-            movement = new Vector3(horizontalInput * moveSpeed, 0f, 0f);   
+            movement = new Vector3(horizontalInput * moveSpeed, 0f, 0f);
         }
         else
         {
@@ -110,9 +127,12 @@ public class PlayerController : MonoBehaviour
     //Change Look Direction of Player by Scale inversion
     void Flip()
     {
-        Vector3 currentScale = gameObject.transform.localScale;
-        currentScale.x *= -1;
-        gameObject.transform.localScale = currentScale;
+        Vector3 currentScalePlayer = modelCont.transform.localScale;
+        Vector3 currentScaleFlash = flashLight.transform.localScale;
+        currentScalePlayer.z *= -1;
+        currentScaleFlash.y *= -1;
+        modelCont.transform.localScale = currentScalePlayer;
+        flashLight.transform.localScale = currentScaleFlash;
 
         facingRight = !facingRight;
     }
@@ -210,6 +230,7 @@ public class PlayerController : MonoBehaviour
                 {
                     nightLight.SetActive(false);
                     hasNightlight = true;
+                    NLOutSound.Play();
                 }
                 else
                 {   
@@ -218,6 +239,7 @@ public class PlayerController : MonoBehaviour
                     {
                         nightLight.SetActive(true);
                         hasNightlight = false;
+                        NLInSound.Play();
                         //gm.lastCheckpointPos = transform.position;
                         //gm.nightLight = nightLight;
                     }

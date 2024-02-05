@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class FollowerShadow : MonoBehaviour
 {
-    //Collision Variables
+    //Enemy Variables
     private Rigidbody rb;
     private CapsuleCollider enemyCollider;
+    private FadeUI uiFader;
+    private Animator animator;
 
     //Movement Variables
     [SerializeField] private float minMoveSpeed;
@@ -21,7 +23,9 @@ public class FollowerShadow : MonoBehaviour
 
     //Player ref Variables
     private GameObject player;
+    private Rigidbody playerRB;
     private PlayerController pc;
+
     //Flashlight Variables
     private GameObject flashLight;
     private FlashlightController flc;
@@ -29,15 +33,18 @@ public class FollowerShadow : MonoBehaviour
 
     private void Start()
     {
-        //Get Enemy Collisions
+        //Get Enemy Components
         rb = GetComponent<Rigidbody>();
         enemyCollider = GetComponent<CapsuleCollider>();
+        uiFader = GetComponent<FadeUI>();
+        animator = GetComponent<Animator>();
 
         //Get spawn position
         startPosition = transform.position;
 
         //Get Player ref
         player = GameObject.FindGameObjectWithTag("Player");
+        playerRB = player.gameObject.GetComponent<Rigidbody>();
         pc = player.gameObject.GetComponent<PlayerController>();
 
         //Get Flashlight Components on game startup
@@ -72,6 +79,8 @@ public class FollowerShadow : MonoBehaviour
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
+
+                    animator.SetBool("IsWalking", true);
                 }
                 else if (!pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
@@ -79,20 +88,28 @@ public class FollowerShadow : MonoBehaviour
                     currentMoveSpeed = minMoveSpeed;
                     startChase = false;
                     inLight = true;
+
+                    animator.SetBool("IsWalking", false);
                 }
                 else if (!pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
+
+                    animator.SetBool("IsWalking", true);
                 }
                 else if (!pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
+
+                    animator.SetBool("IsWalking", true);
                 }
                 else //Boolean reset to be out of light
                 {
                     inLight = false;
+
+                    animator.SetBool("IsWalking", false);
                 }
             }
             else //Wander back to spawn point when losing sight
@@ -130,6 +147,8 @@ public class FollowerShadow : MonoBehaviour
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
+
+                    animator.SetBool("IsWalking", true);
                 }
                 else if (pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
@@ -137,20 +156,28 @@ public class FollowerShadow : MonoBehaviour
                     currentMoveSpeed = minMoveSpeed;
                     startChase = false;
                     inLight = true;
+
+                    animator.SetBool("IsWalking", false);
                 }
                 else if (pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
+
+                    animator.SetBool("IsWalking", true);
                 }
                 else if (pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
+
+                    animator.SetBool("IsWalking", true);
                 }
                 else //Boolean reset to be out of light
                 {
                     inLight = false;
+
+                    animator.SetBool("IsWalking", false);
                 }
             }
             else //Wander back to spawn point when losing sight
@@ -164,11 +191,21 @@ public class FollowerShadow : MonoBehaviour
         }
     }
 
+    IEnumerator KillingTime()
+    {
+        playerRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        uiFader.FaderBG();
+        yield return new WaitForSeconds(1f);
+        uiFader.FaderTXT();
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            StartCoroutine(KillingTime());
         }
     }
 
