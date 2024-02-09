@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
 
         //Player movement
         rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
+
     }
 
     //Change Look Direction of Player by Scale inversion

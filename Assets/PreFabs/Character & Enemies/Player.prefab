@@ -714,6 +714,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelCont: {fileID: 8041802099290860024}
+  WalkingSound: {fileID: 0}
+  NLInSound: {fileID: 0}
+  NLOutSound: {fileID: 0}
   moveSpeed: 2.75
   slowDown: 2
   facingRight: 1
@@ -951,6 +954,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9196f1a1092dbc448ba82737ecaacdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FlashlightStaticSound: {fileID: 0}
+  FlashlightRechargeSound: {fileID: 0}
   flashLight: {fileID: 7159405880568869941}
   turnedOn: 1
   decayRate: 0.12
