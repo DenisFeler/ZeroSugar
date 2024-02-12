@@ -81,6 +81,10 @@ public class ChargerShadow : MonoBehaviour
                 Debug.Log("Avoided");
                 Destroy(gameObject);
             }
+            else
+            {
+
+            }
         }
 
         //Raycast to the Left to search for player
@@ -119,6 +123,10 @@ public class ChargerShadow : MonoBehaviour
             {
                 Debug.Log("Avoided");
                 Destroy(gameObject);
+            }
+            else
+            {
+
             }
         }
     }

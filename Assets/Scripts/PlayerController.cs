@@ -10,9 +10,11 @@ public class PlayerController : MonoBehaviour
     public GameObject modelCont;
 
     //Sound Variables
-    public AudioSource WalkingSound;
+    public AudioSource[] WalkingSound;
     public AudioSource NLInSound;
     public AudioSource NLOutSound;
+    public AudioSource StairSound;
+    bool playingSound = false;
 
     //Movement Variables
     float horizontalInput;
@@ -123,6 +125,10 @@ public class PlayerController : MonoBehaviour
         //Player movement
         rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
 
+        if (Input.GetAxisRaw("Horizontal") != 0 && !playingSound)
+        {
+            StartCoroutine(WalkingCycle());
+        }
     }
 
     //Change Look Direction of Player by Scale inversion
@@ -224,6 +230,8 @@ public class PlayerController : MonoBehaviour
                         Debug.Log("No Room under that number existant");
                         break;
                 }
+
+                StairSound.Play();
             }
         }
 
@@ -294,6 +302,14 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator WalkingCycle()
+    {
+        playingSound = true;
+        WalkingSound[Random.Range(0, 4)].Play();
+        yield return new WaitForSeconds(0.5f);
+        playingSound = false;
     }
 
     private void OnTriggerEnter (Collider collision)
