@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class FollowerShadow : MonoBehaviour
 {
+    //Sound Variables
+    public AudioSource StalkerWalkSound;
+    public AudioSource StalkerFallbackSound;
+    bool playingSound = false;
+
     //Enemy Variables
     private Rigidbody rb;
     private CapsuleCollider enemyCollider;
@@ -81,6 +86,14 @@ public class FollowerShadow : MonoBehaviour
                     startChase = true;
 
                     animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsBacking", false);
+
+                    if (!playingSound)
+                    {
+                        StartCoroutine(WalkingSound());
+                    }
+
+                    StalkerFallbackSound.Stop();
                 }
                 else if (!pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
@@ -89,7 +102,15 @@ public class FollowerShadow : MonoBehaviour
                     startChase = false;
                     inLight = true;
 
+                    animator.SetBool("IsBacking", true);
                     animator.SetBool("IsWalking", false);
+
+                    if (!playingSound)
+                    {
+                        StartCoroutine(FallbackSound());
+                    }
+
+                    StalkerWalkSound.Stop();
                 }
                 else if (!pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
@@ -97,6 +118,14 @@ public class FollowerShadow : MonoBehaviour
                     startChase = true;
 
                     animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsBacking", false);
+
+                    if (!playingSound)
+                    {
+                        StartCoroutine(WalkingSound());
+                    }
+
+                    StalkerFallbackSound.Stop();
                 }
                 else if (!pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
@@ -104,6 +133,14 @@ public class FollowerShadow : MonoBehaviour
                     startChase = true;
 
                     animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsBacking", false);
+
+                    if (!playingSound)
+                    {
+                        StartCoroutine(WalkingSound());
+                    }
+
+                    StalkerFallbackSound.Stop();
                 }
                 else //Boolean reset to be out of light
                 {
@@ -149,6 +186,14 @@ public class FollowerShadow : MonoBehaviour
                     startChase = true;
 
                     animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsBacking", false);
+
+                    if (!playingSound)
+                    {
+                        StartCoroutine(WalkingSound());
+                    }
+
+                    StalkerFallbackSound.Stop();
                 }
                 else if (pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
@@ -157,7 +202,15 @@ public class FollowerShadow : MonoBehaviour
                     startChase = false;
                     inLight = true;
 
+                    animator.SetBool("IsBacking", true);
                     animator.SetBool("IsWalking", false);
+
+                    if (!playingSound)
+                    {
+                        StartCoroutine(FallbackSound());
+                    }
+
+                    StalkerWalkSound.Stop();
                 }
                 else if (pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
@@ -165,6 +218,14 @@ public class FollowerShadow : MonoBehaviour
                     startChase = true;
 
                     animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsBacking", false);
+
+                    if (!playingSound)
+                    {
+                        StartCoroutine(WalkingSound());
+                    }
+
+                    StalkerFallbackSound.Stop();
                 }
                 else if (pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
@@ -172,6 +233,14 @@ public class FollowerShadow : MonoBehaviour
                     startChase = true;
 
                     animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsBacking", false);
+
+                    if (!playingSound)
+                    {
+                        StartCoroutine(WalkingSound());
+                    }
+
+                    StalkerFallbackSound.Stop();
                 }
                 else //Boolean reset to be out of light
                 {
@@ -189,6 +258,22 @@ public class FollowerShadow : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator WalkingSound()
+    {
+        playingSound = true;
+        StalkerWalkSound.Play();
+        yield return new WaitForSeconds(StalkerWalkSound.clip.length);
+        playingSound = false;
+    }
+
+    IEnumerator FallbackSound()
+    {
+        playingSound = true;
+        StalkerFallbackSound.Play();
+        yield return new WaitForSeconds(StalkerFallbackSound.clip.length);
+        playingSound = false;
     }
 
     IEnumerator KillingTime()
