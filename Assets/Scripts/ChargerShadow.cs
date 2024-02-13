@@ -9,6 +9,8 @@ public class ChargerShadow : MonoBehaviour
     private Rigidbody rb;
     private CapsuleCollider enemyCollider;
     private FadeUI uiFader;
+    private Animator animator;
+    [SerializeField] private int OutOfSightCounter = 0;
 
     //Movement Variables
     [SerializeField] private float moveSpeed;
@@ -28,9 +30,11 @@ public class ChargerShadow : MonoBehaviour
 
     private void Start()
     {
-        //Get Enemy Collisions
+        //Get Enemy Components
         rb = GetComponent<Rigidbody>();
         enemyCollider = GetComponent<CapsuleCollider>();
+        uiFader = GetComponent<FadeUI>();
+        animator = GetComponent<Animator>();
 
         //Get Player ref
         player = GameObject.FindGameObjectWithTag("Player");
@@ -53,22 +57,36 @@ public class ChargerShadow : MonoBehaviour
 
             if (hasLineOfSight)
             {
+                OutOfSightCounter = 0;
+
                 if (pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                    animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsSlowed", false);
                 }
                 else if (!pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, (moveSpeed / slowRatio) * Time.deltaTime);
                     inLight = true;
+
+                    animator.SetBool("IsWalking", false);
+                    animator.SetBool("IsSlowed", true);
                 }
                 else if (!pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                    animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsSlowed", false);
                 }
                 else if (!pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                    animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsSlowed", false);
                 }
                 else //Boolean reset to be out of light
                 {
@@ -76,14 +94,16 @@ public class ChargerShadow : MonoBehaviour
                     hadLineOfSight = true;
                 }
             }
-            else if (!hasLineOfSight && hadLineOfSight)//Wander back to spawn point when losing sight
-            {
-                Debug.Log("Avoided");
-                Destroy(gameObject);
-            }
             else
             {
+                OutOfSightCounter++;
 
+
+                if (hadLineOfSight && OutOfSightCounter == 10)
+                {
+                    Debug.Log("Avoided");
+                    Destroy(gameObject);
+                }
             }
         }
 
@@ -96,22 +116,36 @@ public class ChargerShadow : MonoBehaviour
 
             if (hasLineOfSight)
             {
+                OutOfSightCounter = 0;
+
                 if (!pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                    animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsSlowed", false);
                 }
                 else if (pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, (moveSpeed / slowRatio) * Time.deltaTime);
                     inLight = true;
+
+                    animator.SetBool("IsWalking", false);
+                    animator.SetBool("IsSlowed", true);
                 }
                 else if (pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                    animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsSlowed", false);
                 }
                 else if (pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                    animator.SetBool("IsWalking", true);
+                    animator.SetBool("IsSlowed", false);
                 }
                 else //Boolean reset to be out of light
                 {
@@ -119,20 +153,22 @@ public class ChargerShadow : MonoBehaviour
                     hadLineOfSight = true;
                 }
             }
-            else if (!hasLineOfSight && hadLineOfSight)//Wander back to spawn point when losing sight
-            {
-                Debug.Log("Avoided");
-                Destroy(gameObject);
-            }
             else
             {
+                OutOfSightCounter++;
 
+                if (hadLineOfSight && OutOfSightCounter == 10)
+                {
+                    Debug.Log("Avoided");
+                    Destroy(gameObject);
+                }
             }
         }
     }
 
     IEnumerator KillingTime()
     {
+        animator.SetBool("IsKilling", true);
         playerRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
         uiFader.FaderBG();
         yield return new WaitForSeconds(1f);

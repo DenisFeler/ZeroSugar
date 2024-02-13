@@ -278,6 +278,7 @@ public class FollowerShadow : MonoBehaviour
 
     IEnumerator KillingTime()
     {
+        animator.SetBool("IsKilling", true);
         playerRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
         uiFader.FaderBG();
         yield return new WaitForSeconds(1f);

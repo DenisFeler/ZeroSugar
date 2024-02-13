@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - HidingSpace
   - GameMaster
+  - ShadowPit
   layers:
   - Default
   - TransparentFX

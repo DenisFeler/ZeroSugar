@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class FadeUI : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup fadingCanvasBackground;
+    [SerializeField] private GameObject CanvasBackground;
     [SerializeField] private CanvasGroup fadingCanvasText;
 
     public void FaderBG()
     {
-        fadingCanvasBackground.DOFade(1, 1);
+        CanvasBackground.transform.DOMoveY(1080/2, 2, true);
     }
 
     public void FaderTXT()

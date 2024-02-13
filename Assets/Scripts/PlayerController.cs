@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool canInteract = false;
     public GameObject InteractionUICanvas;
     private InteractionUI interactUI;
+    private FadeUI uiFader;
+    [SerializeField] private float killCounter = 0;
 
     //Door Variables
     private bool isDoor = false;
@@ -78,7 +80,9 @@ public class PlayerController : MonoBehaviour
         //Get Checkpoint Components on game startup
         //gm = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameMaster>();
 
+        //Get UI Components
         interactUI = InteractionUICanvas.gameObject.GetComponent<InteractionUI>();
+        uiFader = GetComponent<FadeUI>();
     }
 
     private void Update()
@@ -307,6 +311,16 @@ public class PlayerController : MonoBehaviour
         playingSound = false;
     }
 
+    IEnumerator ShadowPitKill()
+    {
+        rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        uiFader.FaderBG();
+        yield return new WaitForSeconds(1f);
+        uiFader.FaderTXT();
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     private void OnTriggerEnter (Collider collision)
     {
         //Collision detection on Doors
@@ -340,9 +354,14 @@ public class PlayerController : MonoBehaviour
         }
 
         //Collision detection on Shadow Pits
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "ShadowPit")
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            killCounter = killCounter + 1 * Time.deltaTime;
+
+            if (killCounter >= 1.5f)
+            {
+                StartCoroutine(ShadowPitKill());
+            }
         }
     }
 
@@ -372,6 +391,17 @@ public class PlayerController : MonoBehaviour
 
             interactUI.canShowUI = true;
         }
+
+        //Collision detection on Shadow Pits
+        if (collision.gameObject.tag == "ShadowPit")
+        {
+            killCounter = killCounter + 1 * Time.deltaTime;
+
+            if (killCounter >= 1.5f)
+            {
+                StartCoroutine(ShadowPitKill());
+            }
+        }
     }
 
     private void OnTriggerExit(Collider collision)
@@ -399,6 +429,12 @@ public class PlayerController : MonoBehaviour
             canHide = false;
 
             interactUI.canShowUI = false;
+        }
+
+        //Collision detection on Shadow Pits
+        if (collision.gameObject.tag == "ShadowPit")
+        {
+            killCounter = 0;
         }
     }
 }
