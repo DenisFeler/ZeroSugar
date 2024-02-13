@@ -87,11 +87,6 @@ public class PlayerController : MonoBehaviour
         if (canInteract)
         {
             Interaction();
-            interactUI.canShowUI = true;
-        }
-        else
-        {
-            interactUI.canShowUI = false;
         }
     }
 
@@ -322,6 +317,8 @@ public class PlayerController : MonoBehaviour
             var DoorTo = collision.gameObject.GetComponent<Door>();
             moveLocation = DoorTo.AbsoluteWorldPosition;
             RoomNum = (int)DoorTo.toRoom;
+
+            interactUI.canShowUI = true;
         }
         //Collision detection on Nightlights
         if (collision.gameObject.tag == "Outlet")
@@ -329,6 +326,8 @@ public class PlayerController : MonoBehaviour
             nightLight = collision.transform.GetChild(2).gameObject;
             canInteract = true;
             isNightlight = true;
+
+            interactUI.canShowUI = true;
         }
         //Collision detection on Hidingspots
         if (collision.gameObject.tag == "HidingSpace")
@@ -336,6 +335,8 @@ public class PlayerController : MonoBehaviour
             canInteract = true;
             canHide = true;
             hideLocation = collision.gameObject.transform.localPosition;
+
+            interactUI.canShowUI = true;
         }
 
         //Collision detection on Shadow Pits
@@ -352,18 +353,24 @@ public class PlayerController : MonoBehaviour
         {
             canInteract = true;
             isDoor = true;
+
+            interactUI.canShowUI = true;
         }
         //Be able to constantly use Nightlights/Outlets
         if (collision.gameObject.tag == "Outlet")
         {
             canInteract = true;
             isNightlight = true;
+
+            interactUI.canShowUI = true;
         }
         //Be able to constantly use Hidingspots
         if (collision.gameObject.tag == "HidingSpace")
         {
             canInteract = true;
             canHide = true;
+
+            interactUI.canShowUI = true;
         }
     }
 
@@ -373,19 +380,25 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Doorway")
         {
             canInteract = false;
-            isDoor = false;  
+            isDoor = false;
+
+            interactUI.canShowUI = false;
         }
         //Disable any interactions with nightlights while out of bounds
         if (collision.gameObject.tag == "Outlet")
         {
             canInteract = false;
             isNightlight = false;
+
+            interactUI.canShowUI = false;
         }
         //Disable any interactions with Hidingspots while out of bounds
         if (collision.gameObject.tag == "HidingSpace")
         {
             canInteract = false;
             canHide = false;
+
+            interactUI.canShowUI = false;
         }
     }
 }
