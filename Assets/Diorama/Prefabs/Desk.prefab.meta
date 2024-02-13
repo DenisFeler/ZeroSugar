@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Diorama/Prefabs/Desk.prefab.meta
 guid: 0cb8dae752eae4f4797962e34e0c9275
+========
+guid: 299fdccd87913534da4a8672860956ed
+>>>>>>>> LevelDesign:Assets/Diorama/Prefabs/KitchenWall.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

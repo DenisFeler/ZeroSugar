@@ -96,8 +96,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 2.5}
-  m_Center: {x: 0, y: 0, z: -2}
+  m_Size: {x: 0.49, y: 1, z: 0.41}
+  m_Center: {x: 0, y: 0, z: -0.69}
 --- !u!114 &1887648247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,4 +112,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ConnectedTo: {fileID: 0}
   ConnectedPosition: {x: 0, y: 0, z: 0}
+  AbsoluteWorldPosition: {x: 0, y: 0, z: 0}
   toRoom: 0

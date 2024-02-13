@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Diorama/Prefabs/Chair.prefab.meta
+guid: 941aed7c4f6bd294eb31a08c9d99254a
+========
 guid: d8c1812c4493dc744b5f19b9630612e4
+>>>>>>>> LevelDesign:Assets/Diorama/Prefabs/Fridge.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

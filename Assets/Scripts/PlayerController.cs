@@ -157,22 +157,28 @@ public class PlayerController : MonoBehaviour
                 {
                     case 0: //Entering Child Bedroom from Upper Hallway
                         //Adaptable Positioning on door entering
+                        //ExitfromRight
+                        // gameObject.transform.localPosition = new Vector3(10000f, 10000f, moveLocation.z);
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 1: //Entering Upper Hallway from Child Bedroom
                         //Adaptable Positioning on door entering
+                        //ExitfromLeft
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
                         break;
                     case 2: //Entering Lower Hallway from Upper Hallway
                         //Adaptable Positioning on door entering
+                        //ExitDownstairs
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1f, moveLocation.y + 1f, moveLocation.z + 4f);
                         break;
                     case 3: //Entering Upper Hallway from Lower Hallway
                         //Adaptable Positioning on door entering
+                        //ExitUpstairs
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1f, moveLocation.y + 1f, moveLocation.z + 4f);
                         break;
                     case 4: //Entering Livingroom from Lower Hallway
                         //Adaptable Positioning on door entering
+                        //ExitfromBack
                         gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
                         break;
                     case 5: //Entering Lower Hallway from Livingroom
@@ -314,7 +320,7 @@ public class PlayerController : MonoBehaviour
             canInteract = true;
             isDoor = true;
             var DoorTo = collision.gameObject.GetComponent<Door>();
-            moveLocation = DoorTo.ConnectedPosition;
+            moveLocation = DoorTo.AbsoluteWorldPosition;
             RoomNum = (int)DoorTo.toRoom;
         }
         //Collision detection on Nightlights

@@ -6,6 +6,7 @@ public class Door : MonoBehaviour
 {
     public GameObject ConnectedTo;
     public Vector3 ConnectedPosition;
+    public Vector3 AbsoluteWorldPosition;
 
     public enum Rooms
     {
@@ -32,5 +33,6 @@ public class Door : MonoBehaviour
     private void Awake()
     {
         ConnectedPosition = new Vector3(ConnectedTo.transform.localPosition.x, ConnectedTo.transform.localPosition.y, ConnectedTo.transform.localPosition.z);
+        AbsoluteWorldPosition = new Vector3(ConnectedTo.transform.position.x, ConnectedTo.transform.position.y, ConnectedTo.transform.position.z);
     }
 }
