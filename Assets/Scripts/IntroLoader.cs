@@ -7,10 +7,18 @@ public class IntroLoader : MonoBehaviour
 {
     public float changeTimer;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+    
     private void FixedUpdate()
     {
         changeTimer -= Time.deltaTime;
-        if(changeTimer <= 0 || Input.GetKeyDown(KeyCode.Escape))
+        if(changeTimer <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
