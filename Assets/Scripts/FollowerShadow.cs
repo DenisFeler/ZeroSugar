@@ -85,8 +85,9 @@ public class FollowerShadow : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
 
-                    animator.SetBool("IsWalking", true);
                     animator.SetBool("IsBacking", false);
+                    animator.SetBool("IsWalking", true);
+                    
 
                     if (!playingSound)
                     {
@@ -102,8 +103,9 @@ public class FollowerShadow : MonoBehaviour
                     startChase = false;
                     inLight = true;
 
-                    animator.SetBool("IsBacking", true);
                     animator.SetBool("IsWalking", false);
+                    animator.SetBool("IsBacking", true);
+                    
 
                     if (!playingSound)
                     {
@@ -117,8 +119,9 @@ public class FollowerShadow : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
 
-                    animator.SetBool("IsWalking", true);
                     animator.SetBool("IsBacking", false);
+                    animator.SetBool("IsWalking", true);
+                    
 
                     if (!playingSound)
                     {
@@ -132,8 +135,9 @@ public class FollowerShadow : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
 
+                    animator.SetBool("IsBacking", false);       
                     animator.SetBool("IsWalking", true);
-                    animator.SetBool("IsBacking", false);
+                    
 
                     if (!playingSound)
                     {
@@ -185,8 +189,9 @@ public class FollowerShadow : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
 
-                    animator.SetBool("IsWalking", true);
                     animator.SetBool("IsBacking", false);
+                    animator.SetBool("IsWalking", true);
+                    
 
                     if (!playingSound)
                     {
@@ -202,8 +207,9 @@ public class FollowerShadow : MonoBehaviour
                     startChase = false;
                     inLight = true;
 
-                    animator.SetBool("IsBacking", true);
                     animator.SetBool("IsWalking", false);
+                    animator.SetBool("IsBacking", true);
+                    
 
                     if (!playingSound)
                     {
@@ -217,8 +223,9 @@ public class FollowerShadow : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
 
-                    animator.SetBool("IsWalking", true);
                     animator.SetBool("IsBacking", false);
+                    animator.SetBool("IsWalking", true);
+                    
 
                     if (!playingSound)
                     {
@@ -232,8 +239,9 @@ public class FollowerShadow : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
 
-                    animator.SetBool("IsWalking", true);
                     animator.SetBool("IsBacking", false);
+                    animator.SetBool("IsWalking", true);
+                    
 
                     if (!playingSound)
                     {
