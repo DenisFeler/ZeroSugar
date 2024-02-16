@@ -217,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StalkerWalkSound: {fileID: 0}
   StalkerFallbackSound: {fileID: 0}
-  minMoveSpeed: 1
+  minMoveSpeed: 1.1
   currentMoveSpeed: 4
   maxSpeed: 5.6
   acceleration: 0.3
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80426ea69f54c7e4c96099de6999d29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadingCanvasBackground: {fileID: 0}
+  CanvasBackground: {fileID: 0}
   fadingCanvasText: {fileID: 0}
 --- !u!95 &9046465036675450223
 Animator:
