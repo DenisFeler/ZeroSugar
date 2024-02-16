@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 5288856506795444767}
   - component: {fileID: 5288856506795444766}
   - component: {fileID: 5288856506795444761}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Power Outlet
   m_TagString: Outlet
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5288856506923041358}
   - component: {fileID: 5288856506923041359}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Outlet Holes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5288856507078799216}
   - component: {fileID: 5288856507078799217}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Outlet Holes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 5288856508023452557}
   - component: {fileID: 5288856508023452547}
   - component: {fileID: 5288856508023452546}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NightLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

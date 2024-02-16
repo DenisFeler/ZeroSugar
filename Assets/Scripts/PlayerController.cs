@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     //Collision Variables
     private Rigidbody rb;
-    private SphereCollider playerCollider;
+    private BoxCollider playerCollider;
 
     //Interaction Variable
     [HideInInspector] public bool canInteract = false;
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     {
         //Get Player Components on game startup
         rb = GetComponent<Rigidbody>();
-        playerCollider = GetComponent<SphereCollider>();
+        playerCollider = GetComponent<BoxCollider>();
         defaultMoveSpeed = moveSpeed;
 
         //Get Flashlight Components on game startup
