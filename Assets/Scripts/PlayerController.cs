@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
     public GameObject InteractionUICanvas;
     private InteractionUI interactUI;
     private FadeUI uiFader;
-    [SerializeField] private float killCounter = 0;
 
     //Door Variables
     private bool isDoor = false;
@@ -45,10 +44,9 @@ public class PlayerController : MonoBehaviour
     private FlashlightController flc;
 
     //Nightlight Variables
-    public GameObject nightLight;
+    [HideInInspector] public GameObject nightLight;
     private bool isNightlight = false;
     [HideInInspector] public bool hasNightlight = false;
-    private GameMaster gm;
 
     //Hiding Variables
     private bool canHide = false;
@@ -60,7 +58,6 @@ public class PlayerController : MonoBehaviour
     private GameObject physCamera;
     private CinemachineVirtualCamera vCam;
     public float fieldOfViewHiding;
-    public GameObject TransitionBlendUI;
 
     private void Start()
     {
@@ -76,9 +73,6 @@ public class PlayerController : MonoBehaviour
         //Get Camera Components on game startup
         physCamera = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
         vCam = physCamera.gameObject.GetComponent<CinemachineVirtualCamera>();
-
-        //Get Checkpoint Components on game startup
-        //gm = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameMaster>();
 
         //Get UI Components
         interactUI = InteractionUICanvas.gameObject.GetComponent<InteractionUI>();
@@ -254,8 +248,6 @@ public class PlayerController : MonoBehaviour
                         nightLight.SetActive(true);
                         hasNightlight = false;
                         NLInSound.Play();
-                        //gm.lastCheckpointPos = transform.position;
-                        //gm.nightLight = nightLight;
                     }
                     else
                     {
@@ -311,16 +303,6 @@ public class PlayerController : MonoBehaviour
         playingSound = false;
     }
 
-    IEnumerator ShadowPitKill()
-    {
-        rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
-        uiFader.FaderBG();
-        yield return new WaitForSeconds(1f);
-        uiFader.FaderTXT();
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
     private void OnTriggerEnter (Collider collision)
     {
         //Collision detection on Doors
@@ -352,17 +334,6 @@ public class PlayerController : MonoBehaviour
 
             interactUI.canShowUI = true;
         }
-
-        //Collision detection on Shadow Pits
-        if (collision.gameObject.tag == "ShadowPit")
-        {
-            killCounter = killCounter + 1 * Time.deltaTime;
-
-            if (killCounter >= 1.5f)
-            {
-                StartCoroutine(ShadowPitKill());
-            }
-        }
     }
 
     private void OnTriggerStay (Collider collision)
@@ -391,17 +362,6 @@ public class PlayerController : MonoBehaviour
 
             interactUI.canShowUI = true;
         }
-
-        //Collision detection on Shadow Pits
-        if (collision.gameObject.tag == "ShadowPit")
-        {
-            killCounter = killCounter + 1 * Time.deltaTime;
-
-            if (killCounter >= 1.5f)
-            {
-                StartCoroutine(ShadowPitKill());
-            }
-        }
     }
 
     private void OnTriggerExit(Collider collision)
@@ -429,12 +389,6 @@ public class PlayerController : MonoBehaviour
             canHide = false;
 
             interactUI.canShowUI = false;
-        }
-
-        //Collision detection on Shadow Pits
-        if (collision.gameObject.tag == "ShadowPit")
-        {
-            killCounter = 0;
         }
     }
 }

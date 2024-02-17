@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 534610750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1253777042}
@@ -238,7 +238,7 @@ RectTransform:
   m_GameObject: {fileID: 1478398785}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1253777042}
@@ -314,7 +314,7 @@ RectTransform:
   m_GameObject: {fileID: 1667362379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1253777042}
@@ -542,7 +542,8 @@ GameObject:
   - component: {fileID: 7159405879792133452}
   - component: {fileID: 7159405879792133454}
   - component: {fileID: 7159405879792133459}
-  - component: {fileID: 341769910}
+  - component: {fileID: 998075582}
+  - component: {fileID: 998075583}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -661,13 +662,24 @@ MonoBehaviour:
   facingRight: 1
   canInteract: 0
   InteractionUICanvas: {fileID: 1253777038}
-  killCounter: 0
   nightLight: {fileID: 0}
   hasNightlight: 0
   hidden: 0
   fieldOfViewHiding: 80
-  TransitionBlendUI: {fileID: 0}
---- !u!114 &341769910
+--- !u!65 &998075582
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7159405879792133449}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.58, y: 1.86, z: 1}
+  m_Center: {x: 0, y: 0.3, z: 0}
+--- !u!114 &998075583
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -676,9 +688,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7159405879792133449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac20e031842630742aec6dc0f7b35f7a, type: 3}
+  m_Script: {fileID: 11500000, guid: 80426ea69f54c7e4c96099de6999d29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanvasBackground: {fileID: 0}
+  fadingCanvasText: {fileID: 0}
 --- !u!1 &7159405880568869942
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,7 +912,7 @@ MonoBehaviour:
   FlashlightRechargeSound: {fileID: 0}
   flashLight: {fileID: 7159405880568869941}
   turnedOn: 1
-  decayRate: 0.085
+  decayRate: 0.08
   chargeRate: 0.33
   batteryCharge1: {fileID: 9049894844600444483}
   batteryCharge2: {fileID: 1332239806801298582}
