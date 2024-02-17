@@ -82,15 +82,12 @@ public class DeathPit : MonoBehaviour
 
         if (collision.gameObject.tag == "NightLight")
         {
-            if (collision.gameObject.activeSelf)
-            {
-                inLight = true;
-            }
-            else
-            {
-                inLight = false;
-                Debug.Log("Out of the Light");
-            }
+            inLight = true;
+        }
+
+        if (collision.gameObject.tag != "NightLight" && collision.gameObject.tag != null)
+        {
+            inLight = false;
         }
     }
 
