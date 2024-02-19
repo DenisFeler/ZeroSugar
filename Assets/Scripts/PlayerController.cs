@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private FlashlightController flc;
 
     //Nightlight Variables
+    [HideInInspector] public GameObject nightLightOut;
     [HideInInspector] public GameObject nightLight;
     private bool isNightlight = false;
     [HideInInspector] public bool hasNightlight = false;
@@ -237,6 +238,7 @@ public class PlayerController : MonoBehaviour
                 if (nightLight.activeSelf)
                 {
                     nightLight.SetActive(false);
+                    nightLightOut.SetActive(true);
                     hasNightlight = true;
                     NLOutSound.Play();
                 }
@@ -246,6 +248,7 @@ public class PlayerController : MonoBehaviour
                     if (hasNightlight)
                     {
                         nightLight.SetActive(true);
+                        nightLightOut.SetActive(false);
                         hasNightlight = false;
                         NLInSound.Play();
                     }
@@ -320,6 +323,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Outlet")
         {
             nightLight = collision.transform.GetChild(2).gameObject;
+            nightLightOut = collision.transform.GetChild(3).gameObject;
             canInteract = true;
             isNightlight = true;
 

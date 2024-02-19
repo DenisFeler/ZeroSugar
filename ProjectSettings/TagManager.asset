@@ -12,6 +12,7 @@ TagManager:
   - HidingSpace
   - GameMaster
   - ShadowPit
+  - NightLightOut
   layers:
   - Default
   - TransparentFX

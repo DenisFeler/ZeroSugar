@@ -16,7 +16,7 @@ public class DeathPit : MonoBehaviour
     private PlayerController pc;
 
     //Interaction Variables
-    [SerializeField] private bool inLight = false;
+    [SerializeField] private bool inLight = true;
     private float killCounter = 0;
 
     void Start()
@@ -65,6 +65,11 @@ public class DeathPit : MonoBehaviour
         {
             inLight = true;
         }
+
+        if (collision.gameObject.tag == "NightLightOut")
+        {
+            inLight = false;
+        }
     }
 
     private void OnTriggerStay(Collider collision)
@@ -88,6 +93,20 @@ public class DeathPit : MonoBehaviour
         if (collision.gameObject.tag != "NightLight" && collision.gameObject.tag != null)
         {
             inLight = false;
+
+            Debug.Log(collision);
+        }
+
+        if (collision.gameObject.tag == "NightLightOut")
+        {
+            inLight = false;
+        }
+
+        if (collision.gameObject.tag == null)
+        {
+            inLight = false;
+
+            Debug.Log(collision);
         }
     }
 
