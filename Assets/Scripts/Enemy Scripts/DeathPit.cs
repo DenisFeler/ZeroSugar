@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class DeathPit : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class DeathPit : MonoBehaviour
     private CapsuleCollider enemyCollider;
     private FadeUI uiFader;
     private Animator animator;
+    private SpriteRenderer[] spriteRender;
 
     //Player ref Variables
     private GameObject player;
@@ -25,6 +27,7 @@ public class DeathPit : MonoBehaviour
         enemyCollider = GetComponent<CapsuleCollider>();
         uiFader = GetComponent<FadeUI>();
         animator = GetComponent<Animator>();
+        spriteRender = GetComponentsInChildren<SpriteRenderer>();
 
         //Get Player reference
         player = GameObject.FindGameObjectWithTag("Player");
@@ -36,11 +39,21 @@ public class DeathPit : MonoBehaviour
     {    
         if (inLight)
         {
-            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            foreach (SpriteRenderer render in spriteRender)
+            {
+                render.DOColor(new Color(1f, 1f, 1f, 0f), 1f);
+            }
+
+            //gameObject.transform.GetChild(0).gameObject.SetActive(false);
         }
         else
         {
-            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            foreach (SpriteRenderer render in spriteRender)
+            {
+                render.DOColor(new Color(1f, 1f, 1f, 1f), 3f);
+            }
+
+            //gameObject.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 
@@ -56,9 +69,12 @@ public class DeathPit : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (!inLight)
         {
-            killCounter = killCounter + 1 * Time.deltaTime;
+            if (collision.gameObject.tag == "Player")
+            {
+                killCounter = killCounter + 1 * Time.deltaTime;
+            }
         }
 
         if (collision.gameObject.tag == "NightLight")
@@ -74,14 +90,16 @@ public class DeathPit : MonoBehaviour
 
     private void OnTriggerStay(Collider collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (!inLight)
         {
-            killCounter = killCounter + 1 * Time.deltaTime;
-
-            if (killCounter >= 1.5f)
+            if (collision.gameObject.tag == "Player")
             {
+                killCounter = killCounter + 1 * Time.deltaTime;
 
-                StartCoroutine(ShadowPitKill());
+                if (killCounter >= 1.5f)
+                {
+                    StartCoroutine(ShadowPitKill());
+                }
             }
         }
 
@@ -93,11 +111,9 @@ public class DeathPit : MonoBehaviour
         if (collision.gameObject.tag != "NightLight" && collision.gameObject.tag != null)
         {
             inLight = false;
-
-            Debug.Log(collision);
         }
 
-        if (collision.gameObject.tag == "NightLightOut")
+        if (collision.gameObject.tag == "NightLightOut" && !collision.gameObject.activeSelf)
         {
             inLight = false;
         }
@@ -105,8 +121,6 @@ public class DeathPit : MonoBehaviour
         if (collision.gameObject.tag == null)
         {
             inLight = false;
-
-            Debug.Log(collision);
         }
     }
 

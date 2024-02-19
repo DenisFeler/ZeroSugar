@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class StaticShadow : MonoBehaviour
 {
-    //Collision Variables
+    //Enemy Variables
     private SphereCollider enemyCollider;
+    private Animator animator;
 
     //Sight Variable
     private bool hasLineOfSight = false;
@@ -14,6 +15,7 @@ public class StaticShadow : MonoBehaviour
     //Player ref Variables
     private GameObject player;
     private PlayerController pc;
+
     //Flashlight Variables
     private GameObject flashLight;
     private FlashlightController flc;
@@ -22,8 +24,9 @@ public class StaticShadow : MonoBehaviour
 
     private void Start()
     {
-        //Get Enemy Collisions
+        //Get Enemy Variables
         enemyCollider = GetComponent<SphereCollider>();
+        animator = GetComponent<Animator>();
 
         //Get Player ref
         player = GameObject.FindGameObjectWithTag("Player");
@@ -52,7 +55,7 @@ public class StaticShadow : MonoBehaviour
                     {
                         if (inLightCounter >= 50)
                         {
-                            Destroy(gameObject);
+                            StartCoroutine(Exploding());
                         }
                         else
                         {
@@ -96,7 +99,7 @@ public class StaticShadow : MonoBehaviour
                     {
                         if (inLightCounter >= 50)
                         {
-                            Destroy(gameObject);
+                            StartCoroutine(Exploding());
                         }
                         else
                         {
@@ -123,6 +126,13 @@ public class StaticShadow : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator Exploding()
+    {
+        animator.SetBool("IsExploding", true);
+        yield return new WaitForSeconds(0.25f);
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter(Collider collision)

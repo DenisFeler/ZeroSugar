@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class FollowerShadow : MonoBehaviour
 {
@@ -18,6 +20,9 @@ public class FollowerShadow : MonoBehaviour
     private FadeUI uiFader;
     private Animator animator;
 
+    //UI Variables
+    public Image EnemyInSight;
+
     //Movement Variables
     [SerializeField] private float minMoveSpeed;
     [SerializeField] private float currentMoveSpeed;
@@ -27,6 +32,8 @@ public class FollowerShadow : MonoBehaviour
     private bool startChase = false;
     private Vector3 startPosition;
     private bool WanderBack = false;
+    private bool HadLineOfSight = false;
+    private bool OutOfSight = true;
 
     //Player ref Variables
     private GameObject player;
@@ -60,7 +67,16 @@ public class FollowerShadow : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {        
+    {
+        if (!OutOfSight)
+        {
+            //EnemyInSight.transform.DOScale(new Vector3(1f, 1f, 1f), 1f);
+        }
+        else
+        {
+            //EnemyInSight.transform.DOScale(new Vector3(1.75f, 1.75f, 1.75f), 1f);
+        }
+
         //Raycast to the Right to search for player
         RaycastHit hitR;
         if (Physics.Raycast(transform.position, Vector3.right * 100, out hitR))
@@ -70,6 +86,8 @@ public class FollowerShadow : MonoBehaviour
 
             if(hasLineOfSight)
             {
+                HadLineOfSight = true;
+                OutOfSight = false;
                 WanderBack = false;
 
                 if (currentMoveSpeed >= maxSpeed && startChase) //Stay at maxSpeed when chasing (aka Limiter)
@@ -159,9 +177,14 @@ public class FollowerShadow : MonoBehaviour
                     animator.SetBool("IsWalking", false);
                 }
             }
+            else if (!hasLineOfSight && HadLineOfSight)
+            {
+                OutOfSight = true;
+            }
             else //Wander back to spawn point when losing sight
             {
                 WanderBack = true;
+
                 if (WanderBack)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, startPosition, minMoveSpeed * Time.deltaTime);
@@ -178,6 +201,8 @@ public class FollowerShadow : MonoBehaviour
 
             if (hasLineOfSight)
             {
+                HadLineOfSight = true;
+                OutOfSight = false;
                 WanderBack = false;
 
                 if (currentMoveSpeed >= maxSpeed && startChase) //Stay at maxSpeed when chasing (aka Limiter)
@@ -267,9 +292,14 @@ public class FollowerShadow : MonoBehaviour
                     animator.SetBool("IsWalking", false);
                 }
             }
+            else if (!hasLineOfSight && HadLineOfSight)
+            {
+                OutOfSight = true;
+            }
             else //Wander back to spawn point when losing sight
             {
                 WanderBack = true;
+
                 if (WanderBack)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, startPosition, minMoveSpeed * Time.deltaTime);
@@ -300,6 +330,7 @@ public class FollowerShadow : MonoBehaviour
     {
         animator.SetBool("IsKilling", true);
         playerRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        yield return new WaitForSeconds(0.25f);
         uiFader.FaderBG();
         yield return new WaitForSeconds(1f);
         uiFader.FaderTXT();
