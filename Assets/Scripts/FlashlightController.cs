@@ -11,6 +11,8 @@ public class FlashlightController : MonoBehaviour
     //Audio Variables
     public AudioSource FlashlightStaticSound;
     public AudioSource FlashlightRechargeSound;
+    private bool hasPlayedSound = false;
+    [SerializeField] private float counter = 0;
 
     //Flashlight Variables
     public Light flashLight;
@@ -25,6 +27,8 @@ public class FlashlightController : MonoBehaviour
     private double batteryCurrentCapacity;
     public double decayRate;
     public double chargeRate;
+    public float TimeTillChargeActive;
+    private float ChargeDelay;
     bool charging = false;
     [SerializeField] private GameObject batteryCharge1;
     [SerializeField] private GameObject batteryCharge2;
@@ -35,6 +39,8 @@ public class FlashlightController : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         pc = player.gameObject.GetComponent<PlayerController>();
+
+        ChargeDelay = TimeTillChargeActive;
 
         batteryCurrentCapacity = batteryMaxCapacity;
     }
@@ -150,17 +156,40 @@ public class FlashlightController : MonoBehaviour
 
     void ChargeFlashlight()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKey(KeyCode.R))
         {
-            flashLight.enabled = false;
-            turnedOn = false;
-            charging = true;
+            TimeTillChargeActive = TimeTillChargeActive - 1 * Time.deltaTime;
 
-            FlashlightRechargeSound.PlayOneShot(FlashlightRechargeSound.clip, 0.2f);
+            if (TimeTillChargeActive <= 0)
+            {
+                flashLight.enabled = false;
+                turnedOn = false;
+                charging = true;
+
+                if (!hasPlayedSound)
+                {
+                    hasPlayedSound = true;
+
+                    FlashlightRechargeSound.PlayOneShot(FlashlightRechargeSound.clip, 0.2f);
+                }
+                else
+                {
+                    counter = counter + 1 * Time.deltaTime;
+
+                    if (counter == FlashlightRechargeSound.clip.length)
+                    {
+                        hasPlayedSound = false;
+                    }
+                }
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.R))
         {
+            TimeTillChargeActive = ChargeDelay;
+            counter = 0;
+            hasPlayedSound = false;
+
             flashLight.enabled = true;
             turnedOn = true;
             charging = false;

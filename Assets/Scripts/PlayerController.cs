@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     //Collision Variables
     private Rigidbody rb;
     private BoxCollider playerCollider;
+    public GameObject playerTracker;
 
     //Interaction Variable
     [HideInInspector] public bool canInteract = false;
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
     //Camera Variables
     private GameObject physCamera;
     private CinemachineVirtualCamera vCam;
+    private CinemachineTransposer vTransposer;
     public float fieldOfViewHiding;
 
     private void Start()
@@ -74,6 +77,7 @@ public class PlayerController : MonoBehaviour
         //Get Camera Components on game startup
         physCamera = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
         vCam = physCamera.gameObject.GetComponent<CinemachineVirtualCamera>();
+        vTransposer = vCam.GetCinemachineComponent<CinemachineTransposer>();
 
         //Get UI Components
         interactUI = InteractionUICanvas.gameObject.GetComponent<InteractionUI>();
@@ -87,12 +91,33 @@ public class PlayerController : MonoBehaviour
         {
             Interaction();
         }
+
+        if (!hidden)
+        {
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                playerTracker.transform.DOLocalMoveX(3, 0.5f, false);
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                playerTracker.transform.DOLocalMoveX(-3, 0.5f, false);
+            }
+
+            if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
+            {
+                playerTracker.transform.DOLocalMoveX(0, 0.5f, false);
+            }
+        }
     }
 
     private void FixedUpdate()
     {
         //Get Left/Right Inputs from Unity internal inputs (A and D)
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        if (!hidden)
+        {
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+        }
 
         //Checks for Flashlight state
         if (flc.turnedOn)
@@ -119,7 +144,7 @@ public class PlayerController : MonoBehaviour
         //Player movement
         rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
 
-        if (Input.GetAxisRaw("Horizontal") != 0 && !playingSound)
+        if (Input.GetAxisRaw("Horizontal") != 0 && !playingSound && !hidden)
         {
             StartCoroutine(WalkingCycle());
         }
