@@ -287,6 +287,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1569557318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1569557319}
+  m_Layer: 0
+  m_Name: playerTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1569557319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569557318}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7159405879792133458}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1667362379
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +597,7 @@ Transform:
   - {fileID: 7264843630094365506}
   - {fileID: 4509400151279454191}
   - {fileID: 1253777042}
+  - {fileID: 1569557319}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -660,8 +692,10 @@ MonoBehaviour:
   moveSpeed: 2.75
   slowDown: 2
   facingRight: 1
+  playerTracker: {fileID: 1569557318}
   canInteract: 0
   InteractionUICanvas: {fileID: 1253777038}
+  nightLightOut: {fileID: 0}
   nightLight: {fileID: 0}
   hasNightlight: 0
   hidden: 0
@@ -693,6 +727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanvasBackground: {fileID: 0}
   fadingCanvasText: {fileID: 0}
+  enemyChaseImg: {fileID: 0}
 --- !u!1 &7159405880568869942
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,10 +945,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FlashlightStaticSound: {fileID: 0}
   FlashlightRechargeSound: {fileID: 0}
+  counter: 0
   flashLight: {fileID: 7159405880568869941}
   turnedOn: 1
   decayRate: 0.08
   chargeRate: 0.33
+  TimeTillChargeActive: 1
   batteryCharge1: {fileID: 9049894844600444483}
   batteryCharge2: {fileID: 1332239806801298582}
   batteryCharge3: {fileID: 4057665214292690886}
