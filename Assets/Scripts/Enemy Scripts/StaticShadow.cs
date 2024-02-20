@@ -11,6 +11,8 @@ public class StaticShadow : MonoBehaviour
 
     //Sight Variable
     private bool hasLineOfSight = false;
+    public float ExplosionDistance = 5;
+    public float InLightDuration = 50;
 
     //Player ref Variables
     private GameObject player;
@@ -20,7 +22,7 @@ public class StaticShadow : MonoBehaviour
     private GameObject flashLight;
     private FlashlightController flc;
     private bool inLight = false;
-    private int inLightCounter = 0;
+    [SerializeField] private int inLightCounter = 0;
 
     private void Start()
     {
@@ -48,12 +50,12 @@ public class StaticShadow : MonoBehaviour
 
             if (hasLineOfSight)
             {
-                if (!pc.facingRight && currentDistance <= 7 && flc.turnedOn) //Burn away when Player looks at it in range with flashlight turned on
+                if (!pc.facingRight && currentDistance <= ExplosionDistance && flc.turnedOn) //Burn away when Player looks at it in range with flashlight turned on
                 {
                     inLight = true;
                     if (inLight)
                     {
-                        if (inLightCounter >= 50)
+                        if (inLightCounter >= InLightDuration)
                         {
                             StartCoroutine(Exploding());
                         }
@@ -67,7 +69,7 @@ public class StaticShadow : MonoBehaviour
                         inLightCounter = 0;
                     }
                 }
-                else if (!pc.facingRight && currentDistance > 7 && flc.turnedOn && !inLight) //Reset burn away counter
+                else if (!pc.facingRight && currentDistance > ExplosionDistance && flc.turnedOn && !inLight) //Reset burn away counter
                 {
                     inLightCounter = 0;
                 }
@@ -92,12 +94,12 @@ public class StaticShadow : MonoBehaviour
 
             if (hasLineOfSight)
             {
-                if (pc.facingRight && currentDistance <= 7 && flc.turnedOn) //Burn away when Player looks at it in range with flashlight turned on
+                if (pc.facingRight && currentDistance <= ExplosionDistance && flc.turnedOn) //Burn away when Player looks at it in range with flashlight turned on
                 {
                     inLight = true;
                     if (inLight)
                     {
-                        if (inLightCounter >= 50)
+                        if (inLightCounter >= InLightDuration)
                         {
                             StartCoroutine(Exploding());
                         }
@@ -111,7 +113,7 @@ public class StaticShadow : MonoBehaviour
                         inLightCounter = 0;
                     }
                 }
-                else if (pc.facingRight && currentDistance > 7 && flc.turnedOn && !inLight) //Reset burn away counter
+                else if (pc.facingRight && currentDistance > ExplosionDistance && flc.turnedOn && !inLight) //Reset burn away counter
                 {
                     inLightCounter = 0;
                 }

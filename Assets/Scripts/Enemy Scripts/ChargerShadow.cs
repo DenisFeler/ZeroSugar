@@ -10,7 +10,10 @@ public class ChargerShadow : MonoBehaviour
     private CapsuleCollider enemyCollider;
     private FadeUI uiFader;
     private Animator animator;
-    [SerializeField] private int OutOfSightCounter = 0;
+    private int OutOfSightCounter = 0;
+    private bool OutOfSight = true;
+    [SerializeField] private float sightDistance = 100;
+    [SerializeField] private float flashDistance = 9;
 
     //Movement Variables
     [SerializeField] private float moveSpeed;
@@ -47,16 +50,27 @@ public class ChargerShadow : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {        
+    {
+        if (!OutOfSight)
+        {
+            uiFader.ChaseSequenceZoomIn();
+        }
+        else
+        {
+            uiFader.ChaseSequenceZoomOut();
+        }
+
         //Raycast to the Right to search for player
         RaycastHit hitR;
-        if (Physics.Raycast(transform.position, Vector3.right * 100, out hitR))
+        if (Physics.Raycast(transform.position, Vector3.right * sightDistance, out hitR))
         {
             hasLineOfSight = hitR.collider.CompareTag("Player");
             float currentDistance = Vector3.Distance(transform.position, player.transform.position);
 
             if (hasLineOfSight)
             {
+                OutOfSight = false;
+                
                 OutOfSightCounter = 0;
 
                 if (pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
@@ -66,7 +80,7 @@ public class ChargerShadow : MonoBehaviour
                     animator.SetBool("IsWalking", true);
                     animator.SetBool("IsSlowed", false);
                 }
-                else if (!pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
+                else if (!pc.facingRight && currentDistance <= flashDistance && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, (moveSpeed / slowRatio) * Time.deltaTime);
                     inLight = true;
@@ -74,7 +88,7 @@ public class ChargerShadow : MonoBehaviour
                     animator.SetBool("IsWalking", false);
                     animator.SetBool("IsSlowed", true);
                 }
-                else if (!pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
+                else if (!pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
 
@@ -98,6 +112,7 @@ public class ChargerShadow : MonoBehaviour
             {
                 OutOfSightCounter++;
 
+                OutOfSight = true;
 
                 if (hadLineOfSight && OutOfSightCounter == 10)
                 {
@@ -109,13 +124,15 @@ public class ChargerShadow : MonoBehaviour
 
         //Raycast to the Left to search for player
         RaycastHit hitL;        
-        if (Physics.Raycast(transform.position, -Vector3.right * 100, out hitL))
+        if (Physics.Raycast(transform.position, -Vector3.right * sightDistance, out hitL))
         {
             hasLineOfSight = hitL.collider.CompareTag("Player");
             float currentDistance = Vector3.Distance(transform.position, player.transform.position);
 
             if (hasLineOfSight)
             {
+                OutOfSight = false;
+
                 OutOfSightCounter = 0;
 
                 if (!pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
@@ -125,7 +142,7 @@ public class ChargerShadow : MonoBehaviour
                     animator.SetBool("IsWalking", true);
                     animator.SetBool("IsSlowed", false);
                 }
-                else if (pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
+                else if (pc.facingRight && currentDistance <= flashDistance && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, (moveSpeed / slowRatio) * Time.deltaTime);
                     inLight = true;
@@ -133,7 +150,7 @@ public class ChargerShadow : MonoBehaviour
                     animator.SetBool("IsWalking", false);
                     animator.SetBool("IsSlowed", true);
                 }
-                else if (pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
+                else if (pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
 
@@ -156,6 +173,8 @@ public class ChargerShadow : MonoBehaviour
             else
             {
                 OutOfSightCounter++;
+
+                OutOfSight = true;
 
                 if (hadLineOfSight && OutOfSightCounter == 10)
                 {

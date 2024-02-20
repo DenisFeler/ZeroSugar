@@ -10,6 +10,7 @@ public class FadeUI : MonoBehaviour
     //Death Screen Variables
     [SerializeField] private GameObject CanvasBackground;
     [SerializeField] private CanvasGroup fadingCanvasText;
+    [SerializeField] private CanvasGroup enemyChaseImg;
 
     //Camera Variables
     private GameObject physCamera;
@@ -29,5 +30,15 @@ public class FadeUI : MonoBehaviour
     public void FaderTXT()
     {
         fadingCanvasText.DOFade(1, 2);
+    }
+
+    public void ChaseSequenceZoomOut()
+    {
+        enemyChaseImg.transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 4f);
+    }
+
+    public void ChaseSequenceZoomIn()
+    {
+        enemyChaseImg.transform.DOScale(new Vector3(0.1f, 0.1f, 0.1f), 1f);
     }
 }

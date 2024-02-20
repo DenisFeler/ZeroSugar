@@ -20,9 +20,6 @@ public class FollowerShadow : MonoBehaviour
     private FadeUI uiFader;
     private Animator animator;
 
-    //UI Variables
-    public Image EnemyInSight;
-
     //Movement Variables
     [SerializeField] private float minMoveSpeed;
     [SerializeField] private float currentMoveSpeed;
@@ -34,6 +31,8 @@ public class FollowerShadow : MonoBehaviour
     private bool WanderBack = false;
     private bool HadLineOfSight = false;
     private bool OutOfSight = true;
+    [SerializeField] private float sightDistance = 100;
+    [SerializeField] private float flashDistance = 9;
 
     //Player ref Variables
     private GameObject player;
@@ -70,16 +69,16 @@ public class FollowerShadow : MonoBehaviour
     {
         if (!OutOfSight)
         {
-            //EnemyInSight.transform.DOScale(new Vector3(1f, 1f, 1f), 1f);
+            uiFader.ChaseSequenceZoomIn();
         }
         else
         {
-            //EnemyInSight.transform.DOScale(new Vector3(1.75f, 1.75f, 1.75f), 1f);
+            uiFader.ChaseSequenceZoomOut();
         }
 
         //Raycast to the Right to search for player
         RaycastHit hitR;
-        if (Physics.Raycast(transform.position, Vector3.right * 100, out hitR))
+        if (Physics.Raycast(transform.position, Vector3.right * sightDistance, out hitR))
         {
             hasLineOfSight = hitR.collider.CompareTag("Player");
             float currentDistance = Vector3.Distance(transform.position, player.transform.position);
@@ -117,7 +116,7 @@ public class FollowerShadow : MonoBehaviour
                     StalkerFallbackSound.Stop();
                     */
                 }
-                else if (!pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
+                else if (!pc.facingRight && currentDistance <= flashDistance && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
                     currentMoveSpeed = minMoveSpeed;
@@ -136,7 +135,7 @@ public class FollowerShadow : MonoBehaviour
                     StalkerWalkSound.Stop();
                     */
                 }
-                else if (!pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
+                else if (!pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
@@ -177,13 +176,14 @@ public class FollowerShadow : MonoBehaviour
                     animator.SetBool("IsWalking", false);
                 }
             }
-            else if (!hasLineOfSight && HadLineOfSight)
-            {
-                OutOfSight = true;
-            }
             else //Wander back to spawn point when losing sight
             {
                 WanderBack = true;
+
+                if (HadLineOfSight)
+                {
+                    OutOfSight = true;
+                }
 
                 if (WanderBack)
                 {
@@ -194,7 +194,7 @@ public class FollowerShadow : MonoBehaviour
 
         //Raycast to the Left to search for player
         RaycastHit hitL;        
-        if (Physics.Raycast(transform.position, -Vector3.right * 100, out hitL))
+        if (Physics.Raycast(transform.position, -Vector3.right * sightDistance, out hitL))
         {
             hasLineOfSight = hitL.collider.CompareTag("Player");
             float currentDistance = Vector3.Distance(transform.position, player.transform.position);
@@ -232,7 +232,7 @@ public class FollowerShadow : MonoBehaviour
                     StalkerFallbackSound.Stop();
                     */
                 }
-                else if (pc.facingRight && currentDistance <= 9 && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
+                else if (pc.facingRight && currentDistance <= flashDistance && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
                     currentMoveSpeed = minMoveSpeed;
@@ -251,7 +251,7 @@ public class FollowerShadow : MonoBehaviour
                     StalkerWalkSound.Stop();
                     */
                 }
-                else if (pc.facingRight && currentDistance > 9 && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
+                else if (pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
                     startChase = true;
@@ -292,13 +292,14 @@ public class FollowerShadow : MonoBehaviour
                     animator.SetBool("IsWalking", false);
                 }
             }
-            else if (!hasLineOfSight && HadLineOfSight)
-            {
-                OutOfSight = true;
-            }
             else //Wander back to spawn point when losing sight
             {
                 WanderBack = true;
+
+                if (HadLineOfSight)
+                {
+                    OutOfSight = true;
+                }
 
                 if (WanderBack)
                 {
