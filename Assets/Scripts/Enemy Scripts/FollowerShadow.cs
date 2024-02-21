@@ -34,6 +34,9 @@ public class FollowerShadow : MonoBehaviour
     [SerializeField] private float sightDistance = 100;
     [SerializeField] private float flashDistance = 9;
 
+    private float waitTillMove = 0;
+    [SerializeField] private float waitDuration = 1;
+
     //Player ref Variables
     private GameObject player;
     private Rigidbody playerRB;
@@ -101,12 +104,16 @@ public class FollowerShadow : MonoBehaviour
 
                 if (pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                    startChase = true;
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsBacking", false);
-                    animator.SetBool("IsWalking", true);
-                    
+                    if (waitTillMove <= 0f)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                        startChase = true;
+
+                        animator.SetBool("IsBacking", false);
+                        animator.SetBool("IsWalking", true);
+                    }                    
                     /*
                     if (!playingSound)
                     {
@@ -125,7 +132,8 @@ public class FollowerShadow : MonoBehaviour
 
                     animator.SetBool("IsWalking", false);
                     animator.SetBool("IsBacking", true);
-                    
+
+                    waitTillMove = waitDuration;
                     /*
                     if (!playingSound)
                     {
@@ -137,12 +145,16 @@ public class FollowerShadow : MonoBehaviour
                 }
                 else if (!pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                    startChase = true;
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsBacking", false);
-                    animator.SetBool("IsWalking", true);
-                    
+                    if (waitTillMove <= 0f)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                        startChase = true;
+
+                        animator.SetBool("IsBacking", false);
+                        animator.SetBool("IsWalking", true);
+                    }
                     /*
                     if (!playingSound)
                     {
@@ -154,12 +166,16 @@ public class FollowerShadow : MonoBehaviour
                 }
                 else if (!pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                    startChase = true;
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsBacking", false);       
-                    animator.SetBool("IsWalking", true);
-                    
+                    if (waitTillMove <= 0f)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                        startChase = true;
+
+                        animator.SetBool("IsBacking", false);
+                        animator.SetBool("IsWalking", true);
+                    }
                     /*
                     if (!playingSound)
                     {
@@ -217,12 +233,16 @@ public class FollowerShadow : MonoBehaviour
 
                 if (!pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                    startChase = true;
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsBacking", false);
-                    animator.SetBool("IsWalking", true);
-                    
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                        startChase = true;
+
+                        animator.SetBool("IsBacking", false);
+                        animator.SetBool("IsWalking", true);
+                    }
                     /*
                     if (!playingSound)
                     {
@@ -241,7 +261,8 @@ public class FollowerShadow : MonoBehaviour
 
                     animator.SetBool("IsWalking", false);
                     animator.SetBool("IsBacking", true);
-                    
+
+                    waitTillMove = waitDuration;
                     /*
                     if (!playingSound)
                     {
@@ -253,12 +274,17 @@ public class FollowerShadow : MonoBehaviour
                 }
                 else if (pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                    startChase = true;
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsBacking", false);
-                    animator.SetBool("IsWalking", true);
-                    
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                        startChase = true;
+
+                        animator.SetBool("IsBacking", false);
+                        animator.SetBool("IsWalking", true);
+                    }
+
                     /*
                     if (!playingSound)
                     {
@@ -270,12 +296,17 @@ public class FollowerShadow : MonoBehaviour
                 }
                 else if (pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                    startChase = true;
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsBacking", false);
-                    animator.SetBool("IsWalking", true);
-                    
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                        startChase = true;
+
+                        animator.SetBool("IsBacking", false);
+                        animator.SetBool("IsWalking", true);
+                    }
+
                     /*
                     if (!playingSound)
                     {

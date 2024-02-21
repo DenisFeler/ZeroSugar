@@ -21,6 +21,9 @@ public class ChargerShadow : MonoBehaviour
     private bool hasLineOfSight = false;
     private bool hadLineOfSight = false;
 
+    private float waitTillMove = 0;
+    [SerializeField] private float waitDuration = 1;
+
     //Player ref Variables
     private GameObject player;
     private Rigidbody playerRB;
@@ -75,10 +78,15 @@ public class ChargerShadow : MonoBehaviour
 
                 if (pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsWalking", true);
-                    animator.SetBool("IsSlowed", false);
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                        animator.SetBool("IsWalking", true);
+                        animator.SetBool("IsSlowed", false);
+                    }
                 }
                 else if (!pc.facingRight && currentDistance <= flashDistance && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
@@ -87,20 +95,32 @@ public class ChargerShadow : MonoBehaviour
 
                     animator.SetBool("IsWalking", false);
                     animator.SetBool("IsSlowed", true);
+
+                    waitTillMove = waitDuration;
                 }
                 else if (!pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsWalking", true);
-                    animator.SetBool("IsSlowed", false);
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                        animator.SetBool("IsWalking", true);
+                        animator.SetBool("IsSlowed", false);
+                    }
                 }
                 else if (!pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsWalking", true);
-                    animator.SetBool("IsSlowed", false);
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                        animator.SetBool("IsWalking", true);
+                        animator.SetBool("IsSlowed", false);
+                    }
                 }
                 else //Boolean reset to be out of light
                 {
@@ -137,10 +157,15 @@ public class ChargerShadow : MonoBehaviour
 
                 if (!pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsWalking", true);
-                    animator.SetBool("IsSlowed", false);
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                        animator.SetBool("IsWalking", true);
+                        animator.SetBool("IsSlowed", false);
+                    }
                 }
                 else if (pc.facingRight && currentDistance <= flashDistance && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
@@ -149,20 +174,32 @@ public class ChargerShadow : MonoBehaviour
 
                     animator.SetBool("IsWalking", false);
                     animator.SetBool("IsSlowed", true);
+
+                    waitTillMove = waitDuration;
                 }
                 else if (pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsWalking", true);
-                    animator.SetBool("IsSlowed", false);
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                        animator.SetBool("IsWalking", true);
+                        animator.SetBool("IsSlowed", false);
+                    }
                 }
                 else if (pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                    waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    animator.SetBool("IsWalking", true);
-                    animator.SetBool("IsSlowed", false);
+                    if (waitTillMove <= 0)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+
+                        animator.SetBool("IsWalking", true);
+                        animator.SetBool("IsSlowed", false);
+                    }
                 }
                 else //Boolean reset to be out of light
                 {

@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     public GameObject InteractionUICanvas;
     private InteractionUI interactUI;
     private FadeUI uiFader;
+    [SerializeField] private CanvasGroup RoomSwitchBlender;
+    private bool MovingRooms = false;
 
     //Door Variables
     private bool isDoor = false;
@@ -94,20 +96,44 @@ public class PlayerController : MonoBehaviour
 
         if (!hidden)
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKey(KeyCode.D))
             {
                 playerTracker.transform.DOLocalMoveX(3, 0.5f, false);
+
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    playerTracker.transform.DOLocalMoveX(-3, 0.5f, false);
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKey(KeyCode.A))
             {
                 playerTracker.transform.DOLocalMoveX(-3, 0.5f, false);
+
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                    playerTracker.transform.DOLocalMoveX(3, 0.5f, false);
+                }
             }
 
             if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
             {
                 playerTracker.transform.DOLocalMoveX(0, 0.5f, false);
+
+                if (Input.GetKey(KeyCode.D))
+                {
+                    playerTracker.transform.DOLocalMoveX(3, 0.5f, false);
+                }
+
+                if (Input.GetKey(KeyCode.A))
+                {
+                    playerTracker.transform.DOLocalMoveX(-3, 0.5f, false);
+                }
             }
+        }
+        else
+        {
+            playerTracker.transform.DOLocalMoveX(0, 0.5f, false);
         }
     }
 
@@ -142,9 +168,12 @@ public class PlayerController : MonoBehaviour
         }
 
         //Player movement
-        rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
+        if (!MovingRooms)
+        {
+            rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
+        }
 
-        if (Input.GetAxisRaw("Horizontal") != 0 && !playingSound && !hidden)
+        if (Input.GetAxisRaw("Horizontal") != 0 && !playingSound && !hidden && !MovingRooms)
         {
             StartCoroutine(WalkingCycle());
         }
@@ -171,6 +200,8 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                StartCoroutine(SwitchingRooms());
+
                 //Moving to the Door given through trigger collision
                 switch (RoomNum)
                 {
@@ -321,6 +352,15 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator SwitchingRooms()
+    {
+        MovingRooms = true;
+        RoomSwitchBlender.DOFade(1f, 0.25f);
+        yield return new WaitForSeconds(1f);
+        RoomSwitchBlender.DOFade(0f, 0.5f);
+        MovingRooms = false;
     }
 
     IEnumerator WalkingCycle()
