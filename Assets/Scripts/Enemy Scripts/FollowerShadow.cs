@@ -102,18 +102,33 @@ public class FollowerShadow : MonoBehaviour
                     currentMoveSpeed += acceleration;
                 }
 
-                if (pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
+                if (pc.facingRight) //Charge Player when not looking in direction & not being in any light
                 {
                     waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    if (waitTillMove <= 0f)
+                    if (!inLight)
                     {
-                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                        startChase = true;
+                        if (waitTillMove <= 0f)
+                        {
+                            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                            startChase = true;
 
-                        animator.SetBool("IsBacking", false);
-                        animator.SetBool("IsWalking", true);
-                    }                    
+                            animator.SetBool("IsBacking", false);
+                            animator.SetBool("IsWalking", true);
+                        }
+                    }
+                    else
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = minMoveSpeed;
+                        startChase = false;
+
+                        animator.SetBool("IsWalking", false);
+                        animator.SetBool("IsBacking", true);
+
+                        waitTillMove = waitDuration;
+                    }
+                                      
                     /*
                     if (!playingSound)
                     {
@@ -125,15 +140,31 @@ public class FollowerShadow : MonoBehaviour
                 }
                 else if (!pc.facingRight && currentDistance <= flashDistance && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
-                    currentMoveSpeed = minMoveSpeed;
-                    startChase = false;
                     inLight = true;
 
-                    animator.SetBool("IsWalking", false);
-                    animator.SetBool("IsBacking", true);
+                    if (inLight)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = minMoveSpeed;
+                        startChase = false;
 
-                    waitTillMove = waitDuration;
+                        animator.SetBool("IsWalking", false);
+                        animator.SetBool("IsBacking", true);
+
+                        waitTillMove = waitDuration;
+                    }
+                    else
+                    {
+                        if (waitTillMove <= 0f)
+                        {
+                            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                            startChase = true;
+
+                            animator.SetBool("IsBacking", false);
+                            animator.SetBool("IsWalking", true);
+                        }
+                    }
+
                     /*
                     if (!playingSound)
                     {
@@ -143,18 +174,33 @@ public class FollowerShadow : MonoBehaviour
                     StalkerWalkSound.Stop();
                     */
                 }
-                else if (!pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
+                else if (!pc.facingRight && currentDistance > flashDistance && flc.turnedOn) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    if (waitTillMove <= 0f)
+                    if (!inLight)
                     {
-                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                        startChase = true;
+                        if (waitTillMove <= 0f)
+                        {
+                            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                            startChase = true;
 
-                        animator.SetBool("IsBacking", false);
-                        animator.SetBool("IsWalking", true);
+                            animator.SetBool("IsBacking", false);
+                            animator.SetBool("IsWalking", true);
+                        }
                     }
+                    else
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = minMoveSpeed;
+                        startChase = false;
+
+                        animator.SetBool("IsWalking", false);
+                        animator.SetBool("IsBacking", true);
+
+                        waitTillMove = waitDuration;
+                    }
+
                     /*
                     if (!playingSound)
                     {
@@ -164,18 +210,32 @@ public class FollowerShadow : MonoBehaviour
                     StalkerFallbackSound.Stop();
                     */
                 }
-                else if (!pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
+                else if (!pc.facingRight && !flc.turnedOn) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
                     waitTillMove = waitTillMove - 1 * Time.deltaTime;
-
-                    if (waitTillMove <= 0f)
+                    if (!inLight)
                     {
-                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                        startChase = true;
+                        if (waitTillMove <= 0f)
+                        {
+                            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                            startChase = true;
 
-                        animator.SetBool("IsBacking", false);
-                        animator.SetBool("IsWalking", true);
+                            animator.SetBool("IsBacking", false);
+                            animator.SetBool("IsWalking", true);
+                        }
                     }
+                    else
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = minMoveSpeed;
+                        startChase = false;
+
+                        animator.SetBool("IsWalking", false);
+                        animator.SetBool("IsBacking", true);
+
+                        waitTillMove = waitDuration;
+                    }
+                    
                     /*
                     if (!playingSound)
                     {
@@ -187,10 +247,10 @@ public class FollowerShadow : MonoBehaviour
                 }
                 else //Boolean reset to be out of light
                 {
-                    inLight = false;
-
-                    animator.SetBool("IsWalking", false);
+                    Debug.Log("Raycast Broken Left");                    
                 }
+
+                inLight = false;
             }
             else //Wander back to spawn point when losing sight
             {
@@ -205,6 +265,8 @@ public class FollowerShadow : MonoBehaviour
                 {
                     transform.position = Vector3.MoveTowards(transform.position, startPosition, minMoveSpeed * Time.deltaTime);
                 }
+
+                animator.SetBool("IsWalking", false);
             }
         }
 
@@ -231,18 +293,33 @@ public class FollowerShadow : MonoBehaviour
                     currentMoveSpeed += acceleration;
                 }
 
-                if (!pc.facingRight && !inLight) //Charge Player when not looking in direction & not being in any light
+                if (!pc.facingRight) //Charge Player when not looking in direction & not being in any light
                 {
                     waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    if (waitTillMove <= 0)
+                    if (!inLight)
                     {
-                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                        startChase = true;
+                        if (waitTillMove <= 0)
+                        {
+                            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                            startChase = true;
 
-                        animator.SetBool("IsBacking", false);
-                        animator.SetBool("IsWalking", true);
+                            animator.SetBool("IsBacking", false);
+                            animator.SetBool("IsWalking", true);
+                        }
                     }
+                    else
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = minMoveSpeed;
+                        startChase = false;
+
+                        animator.SetBool("IsWalking", false);
+                        animator.SetBool("IsBacking", true);
+
+                        waitTillMove = waitDuration;
+                    }
+                    
                     /*
                     if (!playingSound)
                     {
@@ -254,15 +331,31 @@ public class FollowerShadow : MonoBehaviour
                 }
                 else if (pc.facingRight && currentDistance <= flashDistance && flc.turnedOn) //Get away from player when looking in direction & being too close while flashlight is on
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
-                    currentMoveSpeed = minMoveSpeed;
-                    startChase = false;
                     inLight = true;
 
-                    animator.SetBool("IsWalking", false);
-                    animator.SetBool("IsBacking", true);
+                    if (inLight)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = minMoveSpeed;
+                        startChase = false;
 
-                    waitTillMove = waitDuration;
+                        animator.SetBool("IsWalking", false);
+                        animator.SetBool("IsBacking", true);
+
+                        waitTillMove = waitDuration;
+                    }
+                    else
+                    {
+                        if (waitTillMove <= 0)
+                        {
+                            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                            startChase = true;
+
+                            animator.SetBool("IsBacking", false);
+                            animator.SetBool("IsWalking", true);
+                        }
+                    }
+                    
                     /*
                     if (!playingSound)
                     {
@@ -272,17 +365,31 @@ public class FollowerShadow : MonoBehaviour
                     StalkerWalkSound.Stop();
                     */
                 }
-                else if (pc.facingRight && currentDistance > flashDistance && flc.turnedOn && !inLight) //Charge Player when looking in direction & being far away from flashlight & not being in any light
+                else if (pc.facingRight && currentDistance > flashDistance && flc.turnedOn) //Charge Player when looking in direction & being far away from flashlight & not being in any light
                 {
                     waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    if (waitTillMove <= 0)
+                    if (!inLight)
                     {
-                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                        startChase = true;
+                        if (waitTillMove <= 0)
+                        {
+                            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                            startChase = true;
 
-                        animator.SetBool("IsBacking", false);
-                        animator.SetBool("IsWalking", true);
+                            animator.SetBool("IsBacking", false);
+                            animator.SetBool("IsWalking", true);
+                        }
+                    }
+                    else
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = minMoveSpeed;
+                        startChase = false;
+
+                        animator.SetBool("IsWalking", false);
+                        animator.SetBool("IsBacking", true);
+
+                        waitTillMove = waitDuration;
                     }
 
                     /*
@@ -294,17 +401,31 @@ public class FollowerShadow : MonoBehaviour
                     StalkerFallbackSound.Stop();
                     */
                 }
-                else if (pc.facingRight && !flc.turnedOn && !inLight) //Charge Player when looking in direction & flashlight not on & not being in any light
+                else if (pc.facingRight && !flc.turnedOn) //Charge Player when looking in direction & flashlight not on & not being in any light
                 {
                     waitTillMove = waitTillMove - 1 * Time.deltaTime;
 
-                    if (waitTillMove <= 0)
+                    if (!inLight)
                     {
-                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
-                        startChase = true;
+                        if (waitTillMove <= 0)
+                        {
+                            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, currentMoveSpeed * Time.deltaTime);
+                            startChase = true;
 
-                        animator.SetBool("IsBacking", false);
-                        animator.SetBool("IsWalking", true);
+                            animator.SetBool("IsBacking", false);
+                            animator.SetBool("IsWalking", true);
+                        }
+                    }
+                    else
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -currentMoveSpeed * Time.deltaTime);
+                        currentMoveSpeed = minMoveSpeed;
+                        startChase = false;
+
+                        animator.SetBool("IsWalking", false);
+                        animator.SetBool("IsBacking", true);
+
+                        waitTillMove = waitDuration;
                     }
 
                     /*
@@ -318,10 +439,10 @@ public class FollowerShadow : MonoBehaviour
                 }
                 else //Boolean reset to be out of light
                 {
-                    inLight = false;
-
-                    animator.SetBool("IsWalking", false);
+                    Debug.Log("Raycast Broken Left");
                 }
+
+                inLight = false;
             }
             else //Wander back to spawn point when losing sight
             {
@@ -336,6 +457,8 @@ public class FollowerShadow : MonoBehaviour
                 {
                     transform.position = Vector3.MoveTowards(transform.position, startPosition, minMoveSpeed * Time.deltaTime);
                 }
+
+                animator.SetBool("IsWalking", false);
             }
         }
     }

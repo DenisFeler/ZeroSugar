@@ -109,7 +109,12 @@ public class DeathPit : MonoBehaviour
         {
             inLight = true;
         }
-        
+
+        if (collision.gameObject.tag == "NightLight" && collision.gameObject.tag == "Player")
+        {
+            inLight = true;
+        }
+
         if (collision.gameObject.tag != "NightLight" && collision.gameObject.tag != null)
         {
             inLight = false;
