@@ -575,6 +575,8 @@ GameObject:
   - component: {fileID: 7159405879792133459}
   - component: {fileID: 998075582}
   - component: {fileID: 998075583}
+  - component: {fileID: 577856755}
+  - component: {fileID: 577856756}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -695,11 +697,13 @@ MonoBehaviour:
   playerTracker: {fileID: 1569557318}
   canInteract: 0
   InteractionUICanvas: {fileID: 1253777038}
+  RoomSwitchBlender: {fileID: 0}
   nightLightOut: {fileID: 0}
   nightLight: {fileID: 0}
   hasNightlight: 0
+  NightLightUI: {fileID: 0}
   hidden: 0
-  fieldOfViewHiding: 80
+  fieldOfViewHiding: 50
 --- !u!65 &998075582
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -728,6 +732,40 @@ MonoBehaviour:
   CanvasBackground: {fileID: 0}
   fadingCanvasText: {fileID: 0}
   enemyChaseImg: {fileID: 0}
+--- !u!95 &577856755
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7159405879792133449}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 9fb0442a706dbfa409fdc8ea2f78cc06, type: 3}
+  m_Controller: {fileID: 9100000, guid: 494754e1ce8b9fb40ba90a5957218e79, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &577856756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7159405879792133449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd6099dda9d7a64685f155fcba87855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
 --- !u!1 &7159405880568869942
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,15 +983,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FlashlightStaticSound: {fileID: 0}
   FlashlightRechargeSound: {fileID: 0}
-  counter: 0
   flashLight: {fileID: 7159405880568869941}
   turnedOn: 1
+  animator: {fileID: 0}
   decayRate: 0.08
   chargeRate: 0.33
   TimeTillChargeActive: 1
   batteryCharge1: {fileID: 9049894844600444483}
   batteryCharge2: {fileID: 1332239806801298582}
   batteryCharge3: {fileID: 4057665214292690886}
+  Charge1: {fileID: 0}
+  Charge2: {fileID: 0}
+  Charge3: {fileID: 0}
+  ChargeDelayTimer: {fileID: 0}
 --- !u!1 &9049894844600444483
 GameObject:
   m_ObjectHideFlags: 0

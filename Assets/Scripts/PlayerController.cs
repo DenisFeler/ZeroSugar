@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private float defaultMoveSpeed;
     [HideInInspector] public bool facingRight = true;
     private Vector3 movement;
+    private bool flippedOnce = false;
 
     //Collision Variables
     private Rigidbody rb;
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public GameObject nightLight;
     private bool isNightlight = false;
     [HideInInspector] public bool hasNightlight = false;
+    [SerializeField] private Animator NightLightUI;
 
     //Hiding Variables
     private bool canHide = false;
@@ -135,6 +137,143 @@ public class PlayerController : MonoBehaviour
         {
             playerTracker.transform.DOLocalMoveX(0, 0.5f, false);
         }
+
+        //Shine Flashlight to the left
+        if (Input.GetMouseButton(0))
+        {
+            if (facingRight)
+            {
+                if (!flippedOnce)
+                {
+                    Flip();
+
+                    flippedOnce = true;
+                }
+
+                facingRight = false;
+            }
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                facingRight = false;
+
+                flippedOnce = false;
+            }
+            
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                facingRight = false;
+
+                flippedOnce = false;
+            }
+            
+            if (Input.GetKey(KeyCode.D))
+            {
+                facingRight = false;
+
+                flippedOnce = false;
+            }
+            
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                facingRight = false;
+
+                flippedOnce = false;
+            }
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                facingRight = false;
+
+                flippedOnce = false;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                if (!flippedOnce)
+                {
+                    Flip();
+
+                    flippedOnce = true;
+                }
+
+                facingRight = true;
+            }
+        }
+        else
+        {
+            flippedOnce = false;
+        }
+
+        //Shine Flashlight to the right
+        if (Input.GetMouseButton(1))
+        {
+            if (!facingRight)
+            {
+                if (!flippedOnce)
+                {
+                    Flip();
+
+                    flippedOnce = true;
+                }
+
+                facingRight = true;
+            }
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                facingRight = true;
+
+                flippedOnce = false;
+            }
+            
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                facingRight = true;
+
+                flippedOnce = false;
+            }
+            
+            if (Input.GetKey(KeyCode.D))
+            {
+                facingRight = true;
+
+                flippedOnce = false;
+            }
+            
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                facingRight = true;
+
+                flippedOnce = false;
+            }
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                facingRight = false;
+
+                flippedOnce = false;
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                if (!flippedOnce)
+                {
+                    Flip();
+
+                    flippedOnce = true;
+                }
+
+                facingRight = true;
+            }
+        }
+        else
+        {
+            flippedOnce = false;
+        }
     }
 
     private void FixedUpdate()
@@ -155,16 +294,20 @@ public class PlayerController : MonoBehaviour
         {
             //Transfer Movement into Vector and slow it down 
             movement = new Vector3(horizontalInput * moveSpeed / slowDown, 0f, 0f);
-        }        
+        }
 
         //Flip Playermodel depending on Walk direction (Once per)
         if (horizontalInput > 0 && !facingRight)
         {
             Flip();
+
+            //facingRight = true;
         }
         if (horizontalInput < 0 && facingRight)
         {
             Flip();
+
+            //facingRight = false;
         }
 
         //Player movement
@@ -293,6 +436,8 @@ public class PlayerController : MonoBehaviour
                 //Checks if there is a Nightlight active in the Outlet
                 if (nightLight.activeSelf)
                 {
+                    NightLightUI.SetBool("GotNightlight", true);
+
                     nightLight.SetActive(false);
                     nightLightOut.SetActive(true);
                     hasNightlight = true;
@@ -303,6 +448,8 @@ public class PlayerController : MonoBehaviour
                     //Checks if player has Nightlight in possession
                     if (hasNightlight)
                     {
+                        NightLightUI.SetBool("GotNightlight", false);
+
                         nightLight.SetActive(true);
                         nightLightOut.SetActive(false);
                         hasNightlight = false;

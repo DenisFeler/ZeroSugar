@@ -20,6 +20,7 @@ public class DeathPit : MonoBehaviour
     //Interaction Variables
     [SerializeField] private bool inLight = true;
     private float killCounter = 0;
+    [SerializeField] private float MaxTimeDeath = 1.5f;
 
     void Start()
     {
@@ -82,6 +83,7 @@ public class DeathPit : MonoBehaviour
             inLight = true;
         }
 
+
         if (collision.gameObject.tag == "NightLightOut")
         {
             inLight = false;
@@ -96,32 +98,33 @@ public class DeathPit : MonoBehaviour
             {
                 killCounter = killCounter + 1 * Time.deltaTime;
 
-                if (killCounter >= 1.5f)
+                if (killCounter >= MaxTimeDeath)
                 {
                     StartCoroutine(ShadowPitKill());
                 }
             }
         }
-
+        
         if (collision.gameObject.tag == "NightLight")
         {
             inLight = true;
         }
-
+        
         if (collision.gameObject.tag != "NightLight" && collision.gameObject.tag != null)
         {
             inLight = false;
         }
-
+        
         if (collision.gameObject.tag == "NightLightOut" && !collision.gameObject.activeSelf)
         {
             inLight = false;
         }
-
+        /*
         if (collision.gameObject.tag == null)
         {
             inLight = false;
         }
+        */
     }
 
     private void OnTriggerExit(Collider collision)
