@@ -109,6 +109,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dog
       objectReference: {fileID: 0}
+    - target: {fileID: 1790160596708766651, guid: cf401f3599db9974cbb51f18b00a1068,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8399ad4d29b75934a88c63c8f91a3574, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf401f3599db9974cbb51f18b00a1068, type: 3}
 --- !u!4 &589905084533261759 stripped
