@@ -34,11 +34,11 @@ public class FadeUI : MonoBehaviour
 
     public void ChaseSequenceZoomOut()
     {
-        enemyChaseImg.transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 4f);
+        enemyChaseImg.DOFade(0, 1);
     }
 
     public void ChaseSequenceZoomIn()
     {
-        enemyChaseImg.transform.DOScale(new Vector3(0.1f, 0.1f, 0.1f), 1f);
+        enemyChaseImg.DOFade(1, 0.1f);
     }
 }

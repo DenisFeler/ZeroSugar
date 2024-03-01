@@ -9,12 +9,15 @@ public class PlayerController : MonoBehaviour
 {
     //Visual Variables
     public GameObject modelCont;
+    [SerializeField] private Animator anim;
 
     //Sound Variables
     public AudioSource[] WalkingSound;
     public AudioSource NLInSound;
     public AudioSource NLOutSound;
+    public AudioSource DoorSound;
     public AudioSource StairSound;
+    public AudioSource HidingSound;
     bool playingSound = false;
 
     //Movement Variables
@@ -47,6 +50,7 @@ public class PlayerController : MonoBehaviour
     //Flashlight Variables
     private GameObject flashLight;
     private FlashlightController flc;
+    private Vector3 rotationFlashLight = new Vector3(0,180,0);
 
     //Nightlight Variables
     [HideInInspector] public GameObject nightLightOut;
@@ -73,6 +77,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<BoxCollider>();
         defaultMoveSpeed = moveSpeed;
+        anim = GetComponent<Animator>();
 
         //Get Flashlight Components on game startup
         flashLight = GameObject.FindGameObjectWithTag("Flashlight");
@@ -319,6 +324,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") != 0 && !playingSound && !hidden && !MovingRooms)
         {
             StartCoroutine(WalkingCycle());
+            anim.SetBool("IsIdling", false);
+            anim.SetBool("IsWalking", true);
+        }
+
+        if (Input.GetAxisRaw("Horizontal") == 0)
+        {
+            anim.SetBool("IsWalking", false);
+            anim.SetBool("IsIdling", true);
         }
     }
 
@@ -326,11 +339,12 @@ public class PlayerController : MonoBehaviour
     void Flip()
     {
         Vector3 currentScalePlayer = modelCont.transform.localScale;
-        Vector3 currentScaleFlash = flashLight.transform.localScale;
+        Vector3 currentPositionFlash = flashLight.transform.localPosition;
         currentScalePlayer.z *= -1;
-        currentScaleFlash.y *= -1;
+        currentPositionFlash.x *= -1;
         modelCont.transform.localScale = currentScalePlayer;
-        flashLight.transform.localScale = currentScaleFlash;
+        flashLight.transform.localRotation *= Quaternion.Euler(-rotationFlashLight);
+        flashLight.transform.localPosition = currentPositionFlash;
 
         facingRight = !facingRight;
     }
@@ -353,78 +367,124 @@ public class PlayerController : MonoBehaviour
                         //ExitfromRight
                         // gameObject.transform.localPosition = new Vector3(10000f, 10000f, moveLocation.z);
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+
+                        DoorSound.Play();
+
                         break;
                     case 1: //Entering Upper Hallway from Child Bedroom
                         //Adaptable Positioning on door entering
                         //ExitfromLeft
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+
+                        DoorSound.Play();
+
                         break;
                     case 2: //Entering Lower Hallway from Upper Hallway
                         //Adaptable Positioning on door entering
                         //ExitDownstairs
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1f, moveLocation.y + 1f, moveLocation.z + 4f);
+
+                        StairSound.Play();
+
                         break;
                     case 3: //Entering Upper Hallway from Lower Hallway
                         //Adaptable Positioning on door entering
                         //ExitUpstairs
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1f, moveLocation.y + 1f, moveLocation.z + 4f);
+
+                        StairSound.Play();
+
                         break;
                     case 4: //Entering Livingroom from Lower Hallway
                         //Adaptable Positioning on door entering
                         //ExitfromBack
                         gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
+
+                        DoorSound.Play();
+
                         break;
                     case 5: //Entering Lower Hallway from Livingroom
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
+
+                        DoorSound.Play();
+
                         break;
                     case 6: //Entering Kitchen from Lower Hallway
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+
+                        DoorSound.Play();
+
                         break;
                     case 7: //Entering Lower Hallway from Kitchen
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+
+                        DoorSound.Play();
+
                         break;
                     case 8: //Entering Livingroom from Kitchen
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
+
+                        DoorSound.Play();
+
                         break;
                     case 9: //Entering Kitchen from Livingroom
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z - 2.85f);
+
+                        DoorSound.Play();
+
                         break;
                     case 10: //Entering Cellar from Kitchen
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+
+                        DoorSound.Play();
+
                         break;
                     case 11: //Entering Kitchen from Cellar
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+
+                        DoorSound.Play();
+
                         break;
                     case 12: //Entering Stretched Hallway from Lower Hallway
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x - 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+
+                        DoorSound.Play();
+
                         break;
                     case 13: //Entering Lower Hallway from Stretched Hallway
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x + 1.75f, moveLocation.y - 1.45f, moveLocation.z);
+
+                        DoorSound.Play();
+
                         break;
                     case 14: //Entering Office from Stretched Hallway
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z -2.85f);
+
+                        DoorSound.Play();
+
                         break;
                     case 15: //Entering Stretched Hallway from Office
                         //Adaptable Positioning on door entering
                         gameObject.transform.localPosition = new Vector3(moveLocation.x, moveLocation.y - 1.45f, moveLocation.z -2.85f);
+
+                        DoorSound.Play();
+
                         break;
                     default:
                         //In case of extending outside of the given Rooms
                         Debug.Log("No Room under that number existant");
                         break;
                 }
-
-                StairSound.Play();
             }
         }
 
@@ -471,6 +531,8 @@ public class PlayerController : MonoBehaviour
                 //Flip checking if the player is hidden or not
                 if (!hidden)
                 {
+                    HidingSound.Play();
+
                     //Saves the player position before going into hiding
                     currentPosition = gameObject.transform.localPosition;
                     //Reposition the player into the hiding spots location
@@ -486,6 +548,8 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
+                    HidingSound.Play();
+
                     //Get back into position that was saved before
                     gameObject.transform.localPosition = currentPosition;
                     //Get back into default movespeed, previously set up

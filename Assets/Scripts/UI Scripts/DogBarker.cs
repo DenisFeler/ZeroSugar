@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class DogBarker : MonoBehaviour
 {
     private bool barking = false;
-    public Image firstBark;
-    public Image secondBark;
-    public Image thirdBark;
+    public AudioSource[] dogSounds;
+    [SerializeField] private Animator barker;
 
     void FixedUpdate()
     {
@@ -20,25 +19,11 @@ public class DogBarker : MonoBehaviour
         if (!barking)
         {
             barking = true;
-            thirdBark.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            thirdBark.gameObject.SetActive(false);
-            yield return new WaitForSeconds(0.2f);
-            secondBark.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            secondBark.gameObject.SetActive(false);
-            yield return new WaitForSeconds(0.2f);
-            firstBark.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            firstBark.gameObject.SetActive(false);
-            yield return new WaitForSeconds(0.2f);
-            secondBark.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            secondBark.gameObject.SetActive(false);
-            yield return new WaitForSeconds(0.2f);
-            thirdBark.gameObject.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            thirdBark.gameObject.SetActive(false);
+            barker.SetBool("IsBarking", true);
+            dogSounds[Random.Range(0, 2)].Play();
+            yield return new WaitForSeconds(0.5f);
+            barker.SetBool("IsBarking", false);
+            dogSounds[Random.Range(0, 2)].Stop();
             yield return new WaitForSeconds(10f);
             barking = false;
         }
