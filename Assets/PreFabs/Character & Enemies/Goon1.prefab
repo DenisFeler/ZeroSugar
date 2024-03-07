@@ -81,7 +81,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &8472875495228772901
@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 8472875495228772898}
   - component: {fileID: 8472875495228772926}
   - component: {fileID: 582703755011299690}
+  - component: {fileID: 180406218836928140}
   m_Layer: 0
   m_Name: Goon1
   m_TagString: Enemy
@@ -182,7 +183,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.25
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8472875495228772926
 MonoBehaviour:
@@ -196,6 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc59ae2f40ecf84dac6738a775302f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionDistance: 5
+  InLightDuration: 50
+  inLightCounter: 0
 --- !u!95 &582703755011299690
 Animator:
   serializedVersion: 5
@@ -217,3 +221,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &180406218836928140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8472875495228772901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80426ea69f54c7e4c96099de6999d29b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanvasBackground: {fileID: 0}
+  fadingCanvasText: {fileID: 0}
+  enemyChaseImg: {fileID: 0}

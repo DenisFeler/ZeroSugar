@@ -8,6 +8,7 @@ public class StaticShadow : MonoBehaviour
     //Enemy Variables
     private SphereCollider enemyCollider;
     private Animator animator;
+    private FadeUI uiFader;
 
     //Sight Variable
     private bool hasLineOfSight = false;
@@ -16,6 +17,7 @@ public class StaticShadow : MonoBehaviour
 
     //Player ref Variables
     private GameObject player;
+    private Rigidbody playerRB;
     private PlayerController pc;
 
     //Flashlight Variables
@@ -28,10 +30,12 @@ public class StaticShadow : MonoBehaviour
     {
         //Get Enemy Variables
         enemyCollider = GetComponent<SphereCollider>();
+        uiFader = GetComponent<FadeUI>();
         animator = GetComponent<Animator>();
 
         //Get Player ref
         player = GameObject.FindGameObjectWithTag("Player");
+        playerRB = player.gameObject.GetComponent<Rigidbody>();
         pc = player.gameObject.GetComponent<PlayerController>();
 
         //Get Flashlight Components on game startup
@@ -137,18 +141,23 @@ public class StaticShadow : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnTriggerEnter(Collider collision)
+    IEnumerator KillingTime()
+    {
+        animator.SetBool("IsKilling", true);
+        playerRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        yield return new WaitForSeconds(0.25f);
+        uiFader.FaderBG();
+        yield return new WaitForSeconds(1f);
+        uiFader.FaderTXT();
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (!pc.facingRight && !flc.turnedOn && !inLight) //Kill player when colliding and having flashlight off | Right Side
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
-            else if (pc.facingRight && !flc.turnedOn && !inLight) //Kill player when colliding and having flashlight off | Left Side
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
+            StartCoroutine(KillingTime());
         }
     }
 }

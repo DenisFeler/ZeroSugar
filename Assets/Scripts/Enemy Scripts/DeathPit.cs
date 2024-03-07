@@ -114,22 +114,11 @@ public class DeathPit : MonoBehaviour
         {
             inLight = true;
         }
-
-        if (collision.gameObject.tag != "NightLight" && collision.gameObject.tag != null)
-        {
-            inLight = false;
-        }
         
         if (collision.gameObject.tag == "NightLightOut" && !collision.gameObject.activeSelf)
         {
             inLight = false;
         }
-        /*
-        if (collision.gameObject.tag == null)
-        {
-            inLight = false;
-        }
-        */
     }
 
     private void OnTriggerExit(Collider collision)

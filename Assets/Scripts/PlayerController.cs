@@ -142,143 +142,6 @@ public class PlayerController : MonoBehaviour
         {
             playerTracker.transform.DOLocalMoveX(0, 0.5f, false);
         }
-
-        //Shine Flashlight to the left
-        if (Input.GetMouseButton(0))
-        {
-            if (facingRight)
-            {
-                if (!flippedOnce)
-                {
-                    Flip();
-
-                    flippedOnce = true;
-                }
-
-                facingRight = false;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                facingRight = false;
-
-                flippedOnce = false;
-            }
-            
-            if (Input.GetKeyUp(KeyCode.A))
-            {
-                facingRight = false;
-
-                flippedOnce = false;
-            }
-            
-            if (Input.GetKey(KeyCode.D))
-            {
-                facingRight = false;
-
-                flippedOnce = false;
-            }
-            
-            if (Input.GetKeyUp(KeyCode.D))
-            {
-                facingRight = false;
-
-                flippedOnce = false;
-            }
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            if (Input.GetKey(KeyCode.A))
-            {
-                facingRight = false;
-
-                flippedOnce = false;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                if (!flippedOnce)
-                {
-                    Flip();
-
-                    flippedOnce = true;
-                }
-
-                facingRight = true;
-            }
-        }
-        else
-        {
-            flippedOnce = false;
-        }
-
-        //Shine Flashlight to the right
-        if (Input.GetMouseButton(1))
-        {
-            if (!facingRight)
-            {
-                if (!flippedOnce)
-                {
-                    Flip();
-
-                    flippedOnce = true;
-                }
-
-                facingRight = true;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                facingRight = true;
-
-                flippedOnce = false;
-            }
-            
-            if (Input.GetKeyUp(KeyCode.A))
-            {
-                facingRight = true;
-
-                flippedOnce = false;
-            }
-            
-            if (Input.GetKey(KeyCode.D))
-            {
-                facingRight = true;
-
-                flippedOnce = false;
-            }
-            
-            if (Input.GetKeyUp(KeyCode.D))
-            {
-                facingRight = true;
-
-                flippedOnce = false;
-            }
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            if (Input.GetKey(KeyCode.A))
-            {
-                facingRight = false;
-
-                flippedOnce = false;
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                if (!flippedOnce)
-                {
-                    Flip();
-
-                    flippedOnce = true;
-                }
-
-                facingRight = true;
-            }
-        }
-        else
-        {
-            flippedOnce = false;
-        }
     }
 
     private void FixedUpdate()
@@ -305,14 +168,10 @@ public class PlayerController : MonoBehaviour
         if (horizontalInput > 0 && !facingRight)
         {
             Flip();
-
-            //facingRight = true;
         }
         if (horizontalInput < 0 && facingRight)
         {
             Flip();
-
-            //facingRight = false;
         }
 
         //Player movement
