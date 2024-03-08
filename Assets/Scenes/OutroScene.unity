@@ -481,7 +481,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 1.84841e-40, y: -3.69682e-40, z: 0, w: 1}
+  m_LocalRotation: {x: 1.8508e-40, y: -3.70161e-40, z: 0, w: 1}
   m_LocalPosition: {x: -93, y: 13.5, z: 11.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1335,13 +1335,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The Team:\n\n\n\nProducer:\nJonas J\xF6rres\n\nAsset Creation, 3D Animation
-    and Documentation\n\n\n\nLead Artist:\nJacqueline Kubik\n\nConcept Art, 2D Assets,
-    UI Art and 2D Animations\n\n\n\nLead Game Designer:\nMarc Boergers\n\nLevel Design,
-    System Design and Balancing\n\n\n\nSound Designer:\nMaximilian Kauertz\n\nSound
+  m_text: "The Team:\n\n\n\nProducer:\nJonas J\xF6rres\n\n3D Asset Creation, 3D Animation,
+    Documentation\n\n\n\nLead Artist:\nJacqueline Kubik\n\nConcept Art, 2D Assets,
+    UI Art, 2D Animations\n\n\n\nLead Game Designer:\nMarc Boergers\n\nLevel Design,
+    System Design, Balancing\n\n\n\nSound Designer:\nMaximilian Kauertz\n\nSound
     Design, 3D Art Assistance\n\n\n\nArtist:\nAdalia da Silva\n\nConcept Art, Character/Creature
-    Art, Prop Art\n\n\n\nLead Programmer:\nDenis Feler\n\nGameplay Programming, Version
-    Control, Tech Art"
+    Art, Prop Art, 3D Asset Creation\n\n\n\nLead Programmer:\nDenis Feler\n\nGameplay
+    Programming, Version Control, Tech Art"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
