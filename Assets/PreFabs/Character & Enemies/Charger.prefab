@@ -81,7 +81,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &9046465035690411346
@@ -201,8 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b533e5b7c534d5a4192b97c29c08f926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  slowRatio: 4
+  sightDistance: 70
+  flashDistance: 9
+  moveSpeed: 3.05
+  slowRatio: 3
+  waitDuration: 1.5
 --- !u!136 &6637727454857385873
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -250,5 +253,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80426ea69f54c7e4c96099de6999d29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadingCanvasBackground: {fileID: 0}
+  CanvasBackground: {fileID: 0}
   fadingCanvasText: {fileID: 0}
+  enemyChaseImg: {fileID: 0}
